@@ -23,20 +23,19 @@ def shape_to_np(shape, dtype="int"):
 
 
 
-def find_facial_landmarks(img):
+def find_facial_landmarks(img, name):
     p = "shape_predictor_68_face_landmarks.dat"
     detector = dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor(p)
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     rects = detector(img_gray,1)
+    #print(img)
+    #path = os.getcwd()
     #rects = None
     if rects is None:
-        try:
-            os.mkdir("/not_detected")
-        except OSError:
-            print ("Creation of the directory failed")
-        finally:
-            cv2.imwrite(os.path.join('/not_detected' , 'waka.jpg'), img)
+        if not os.path.exists("not_detected"):
+            os.mkdir("not_detected")
+        cv2.imwrite(os.path.join('not_detected/'+name), img)
     else:
         for (i,rect) in enumerate(rects):
             shape = predictor(img_gray, rect)
@@ -49,9 +48,11 @@ def find_facial_landmarks(img):
 
 
 
-    return
+    return img
 
 
 
 img = cv2.imread("000001.jpg")
-find_facial_landmarks(img)
+img = find_facial_landmarks(img, "000001.jpg")
+cv2.imshow("test", img)
+cv2.waitKey(0)
