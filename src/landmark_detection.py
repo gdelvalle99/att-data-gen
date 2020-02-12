@@ -3,6 +3,7 @@ import cv2
 import pandas as pd
 import os
 import dlib
+import csv
 
 def rect_to_bb(rect):
     x = rect.left()
@@ -33,6 +34,7 @@ def find_facial_landmarks(img, name):
     #path = os.getcwd()
     #rects = None
     if rects is None:
+        shape = None
         if not os.path.exists("not_detected"):
             os.mkdir("not_detected")
         cv2.imwrite(os.path.join('not_detected/'+name), img)
@@ -48,11 +50,31 @@ def find_facial_landmarks(img, name):
 
 
 
-    return img
+    return img, shape
 
+def extract_landmarks(name,shape):
 
+    with open('placeholder.csv','w', newline='') as out:
+        csv_out=csv.writer(out)
+        #csv_out.writerow(["features","coordinates","y"])
+        print(shape)
+        csv_out.writerow(["x_"+str(index) for index,row in enumerate(shape)])
+        csv_out.writerow([row for row in shape])
+        #for index,row in enumerate(shape):
+            #csv_out.writerow(["x_"+str(index),row)
 
-img = cv2.imread("000001.jpg")
-img = find_facial_landmarks(img, "000001.jpg")
-cv2.imshow("test", img)
-cv2.waitKey(0)
+    return
+
+def process_directory(dir):
+    entries = os.listdir(dir)
+    for entry in entries:
+        img = cv2.imread(dir+"/"+entry)
+        if img is not None:
+            img, shape = find_facial_landmarks(img, entry)
+            if shape is not None:
+                extract_landmarks(entry,shape)
+
+    return
+
+path = os.getcwd()
+process_directory(path)
