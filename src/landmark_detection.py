@@ -5,6 +5,8 @@ import os
 import dlib
 import csv
 
+
+#imported from face_utils
 def rect_to_bb(rect):
     x = rect.left()
     y = rect.top()
@@ -13,6 +15,7 @@ def rect_to_bb(rect):
 
     return (x,y,w,h)
 
+#imported from face utils
 def shape_to_np(shape, dtype="int"):
 
 	coords = np.zeros((68, 2), dtype=dtype)
@@ -24,6 +27,8 @@ def shape_to_np(shape, dtype="int"):
 
 
 
+
+#marks the face with opencv and dlib
 def find_facial_landmarks(img, name):
     p = "shape_predictor_68_face_landmarks.dat"
     detector = dlib.get_frontal_face_detector()
@@ -33,6 +38,7 @@ def find_facial_landmarks(img, name):
     #print(img)
     #path = os.getcwd()
     #rects = None
+    #if no face is detected the picture goes to this directory
     if rects is None:
         shape = None
         if not os.path.exists("not_detected"):
@@ -49,9 +55,11 @@ def find_facial_landmarks(img, name):
                 cv2.circle(img, (x,y), 1, (0,0,255),-1)
 
 
-
+            #returns marked image, and coordinates of the landmarks
     return img, shape
 
+
+#in progress!!
 def extract_landmarks(name,shape):
 
     with open('placeholder.csv','w', newline='') as out:
@@ -65,6 +73,7 @@ def extract_landmarks(name,shape):
 
     return
 
+#works on entire directories
 def process_directory(dir):
     entries = os.listdir(dir)
     for entry in entries:
