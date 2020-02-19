@@ -59,31 +59,38 @@ def find_facial_landmarks(img, name):
     return img, shape
 
 
-#in progress!!
-def extract_landmarks(name,shape):
+#finished
+def extract_landmarks(name,shape, df):
 
-    with open('placeholder.csv','w', newline='') as out:
-        csv_out=csv.writer(out)
-        #csv_out.writerow(["features","coordinates","y"])
-        print(shape)
-        csv_out.writerow(["x_"+str(index) for index,row in enumerate(shape)])
-        csv_out.writerow([row for row in shape])
-        #for index,row in enumerate(shape):
-            #csv_out.writerow(["x_"+str(index),row)
+    list = []
+    for i in shape:
+        for j in i:
+            list.append(j)
+    df_length = len(df)
+    df.loc[df_length]= list
+    df.index = df.index[:-1].tolist() + [name]
 
-    return
+
+    return df
 
 #works on entire directories
-def process_directory(dir):
+def process_directory(dir, csv_file):
+    list = []
+    for i in range(68): #this section creates the columns for the csv file
+        list.append("x_"+str(i))
+        list.append("y_"+str(i))
+    df = pd.DataFrame(columns=[col for col in list])
     entries = os.listdir(dir)
     for entry in entries:
         img = cv2.imread(dir+"/"+entry)
         if img is not None:
             img, shape = find_facial_landmarks(img, entry)
             if shape is not None:
-                extract_landmarks(entry,shape)
-
+                df = extract_landmarks(entry,shape, df)
+    #print(df)
+    df.to_csv(csv_file)
     return
 
+csv_file = 'test.csv'
 path = os.getcwd()
-process_directory(path)
+process_directory(path, csv_file)
