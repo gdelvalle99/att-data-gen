@@ -4,7 +4,15 @@ import pandas as pd
 import os
 import dlib
 import csv
+import time
+from natsort import natsorted
 
+start = time.time()
+
+found = 0
+not_found = 0
+detector = dlib.get_frontal_face_detector()
+predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 #imported from face_utils
 def rect_to_bb(rect):
@@ -29,10 +37,13 @@ def shape_to_np(shape, dtype="int"):
 
 
 #marks the face with opencv and dlib
-def find_facial_landmarks(img, name):
-    p = "shape_predictor_68_face_landmarks.dat"
-    detector = dlib.get_frontal_face_detector()
-    predictor = dlib.shape_predictor(p)
+def find_facial_landmarks_opencv(img, name):
+    print("On", name)
+    global found
+    global not_found
+    shape = None
+    global detector
+    global predictor
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     rects = detector(img_gray,1)
     #print(img)
@@ -40,11 +51,16 @@ def find_facial_landmarks(img, name):
     #rects = None
     #if no face is detected the picture goes to this directory
     if rects is None:
+        not_found += 1
         shape = None
         if not os.path.exists("not_detected"):
             os.mkdir("not_detected")
         cv2.imwrite(os.path.join('not_detected/'+name), img)
     else:
+        if not os.path.exists("detected_opencv"):
+            os.mkdir("detected_opencv")
+        cv2.imwrite(os.path.join('detected_opencv/'+name), img)
+        found += 1
         for (i,rect) in enumerate(rects):
             shape = predictor(img_gray, rect)
             shape = shape_to_np(shape)
@@ -64,8 +80,7 @@ def extract_landmarks(name,shape, df):
 
     list = []
     for i in shape:
-        for j in i:
-            list.append(j)
+        list.append(i)
     df_length = len(df)
     df.loc[df_length]= list
     df.index = df.index[:-1].tolist() + [name]
@@ -76,15 +91,14 @@ def extract_landmarks(name,shape, df):
 #works on entire directories
 def process_directory(dir, csv_file):
     list = []
-    for i in range(68): #this section creates the columns for the csv file
-        list.append("x_"+str(i))
-        list.append("y_"+str(i))
+    for i in range(68): #this section creates the columns for the csv file (hardcoded to work with 68 predictor)
+        list.append(("x_"+str(i),"y_"+str(i)))
     df = pd.DataFrame(columns=[col for col in list])
-    entries = os.listdir(dir)
+    entries = natsorted(os.listdir(dir))
     for entry in entries:
         img = cv2.imread(dir+"/"+entry)
         if img is not None:
-            img, shape = find_facial_landmarks(img, entry)
+            img, shape = find_facial_landmarks_opencv(img, entry)
             if shape is not None:
                 df = extract_landmarks(entry,shape, df)
     #print(df)
@@ -92,5 +106,8 @@ def process_directory(dir, csv_file):
     return
 
 csv_file = 'test.csv'
-path = os.getcwd()
+path = '/Users/guillermodelvalle/Desktop/celeba-dataset-2/img_align_celeba/img_align_celeba'
 process_directory(path, csv_file)
+print("Percentage of found:", found/(not_found+found))
+end = time.time()
+print("Time taken:", end - start)
