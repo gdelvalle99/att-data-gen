@@ -75,12 +75,32 @@ def find_facial_landmarks_opencv(img, name):
     return img, shape
 
 
+#gets bbox and inserts it into a dictionary
+def use_bbox(dir):
+    df = pd.read_csv(dir)
+    dict = {}
+    for x in df.index:
+        #saves values as tuples
+        value = (df.at[x,"x_1"], df.at[x,"y_1"], df.at[x,"width"], df.at[x, "height"])
+        #uses image name as the dictionary key
+        dict[df.at[x,"image_id"]] = value
+    return dict
+
+def crop_images(dir, rect):
+    entries = natsorted(os.listdir(dir))
+    for entry in entries:
+        img = cv2.imread(dir+"/"+entry)
+        crop_img = img[dict[entry][1]:dict[entry][1]+dict[entry][3],dict[entry][0]:dict[entry][0]+dict[entry][2]]
+        crop_img = cv2.resize(crop_img,(178,218))
+    return
+
 #finished
 def extract_landmarks(name,shape, df):
 
     list = []
     for i in shape:
         list.append(i)
+    #appends x and y coordinates as a single tuple
     df_length = len(df)
     df.loc[df_length]= list
     df.index = df.index[:-1].tolist() + [name]
@@ -88,9 +108,34 @@ def extract_landmarks(name,shape, df):
 
     return df
 
+def get_rect(rects, bbox):
+    #print(len(rects))
+    if(len(rects) == 1):
+        return rects[0]
+    else:
+        (x1, y1, w1, h1) = bbox
+        celebA_bbox = np.array((x1,y1))
+        dist = float("inf")
+        closest_bbox = None
+        print(rects)
+        for i,rect in enumerate(rects):
+            print(rect)
+            (x, y, w, h) = rect_to_bb(rect)
+            dlib_bbox = np.array((x,y))
+            #print(celebA_bbox - dlib_bbox)
+            if np.linalg.norm(celebA_bbox - dlib_bbox) < dist:
+                closest_bbox = rect
+                dist = np.linalg.norm(celebA_bbox - dlib_bbox)
+        #print(closest_bbox)
+        return closest_bbox
+
 #works on entire directories
-def process_directory(dir, csv_file):
+def process_directory(dir, csv_file, dict, aligned = False):
     list = []
+    global detector
+    global predictor
+    global found
+    global not_found
     for i in range(68): #this section creates the columns for the csv file (hardcoded to work with 68 predictor)
         list.append(("x_"+str(i),"y_"+str(i)))
     df = pd.DataFrame(columns=[col for col in list])
@@ -98,16 +143,67 @@ def process_directory(dir, csv_file):
     for entry in entries:
         img = cv2.imread(dir+"/"+entry)
         if img is not None:
-            img, shape = find_facial_landmarks_opencv(img, entry)
+            shape = None
+            img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            rects = detector(img_gray,1)
+            #if no face is detected the picture goes to this directory
+            #print(rects)
+            if len(rects) == 0:
+                not_found += 1
+                shape = None
+                if not os.path.exists("not_detected"):
+                    os.mkdir("not_detected")
+                cv2.imwrite(os.path.join('not_detected/'+entry), img)
+            else:
+                if not os.path.exists("detected_opencv"):
+                    os.mkdir("detected_opencv")
+                ##NEED TO TEST THE BOTTOM PART ON UNALIGNED IMAGES
+                #print(dict[entry][1],dict[entry][1]+dict[entry][3],dict[entry][0],dict[entry][0]+dict[entry][2])
+                #if not aligned:
+
+                found += 1
+                #this part identifies the features using dlib's face predictor
+                rect = get_rect(rects, dict[entry])
+                #print(rects[0].top(), rects[0].left())
+                left = rects[0].left()
+                right = rects[0].right()
+                top = rects[0].top()
+                bottom = rects[0].bottom()
+                if(left < 0):
+                    left = 0
+                if(top < 0):
+                    top = 0
+                #crop_img = img[dict[entry][0]:dict[entry][0]+dict[entry][2],dict[entry][1]:dict[entry][1]+dict[entry][3]]
+                #print(rects[0],rects[0]+rects[2],rects[1],rects[1]+rects[3])
+                crop_img = img[top:bottom,left:right]
+                crop_img = cv2.resize(crop_img,(178,218))
+                cv2.imwrite(os.path.join('detected_opencv/'+entry), crop_img)
+                #print(rects)
+                #for (i,rect) in enumerate(rects):
+                shape = predictor(img_gray, rect)
+                shape = shape_to_np(shape)
+                (x,y,w,h) = rect_to_bb(rect)
+                cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0))
+
+                for(x,y) in shape:
+                    cv2.circle(img, (x,y), 1, (0,0,255),-1)
             if shape is not None:
-                df = extract_landmarks(entry,shape, df)
-    #print(df)
+                list = []
+                for i in shape:
+                    list.append(i)
+                #appends x and y coordinates as a single tuple
+                df_length = len(df)
+                df.loc[df_length]= list
+                df.index = df.index[:-1].tolist() + [entry]
+                #df = extract_landmarks(entry,shape, df)
     df.to_csv(csv_file)
     return
 
+dict = use_bbox('/Users/guillermodelvalle/Desktop/celeba-dataset-2/list_bbox_celeba.csv')
+#print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/Users/guillermodelvalle/Desktop/celeba-dataset-2/img_align_celeba/img_align_celeba'
-process_directory(path, csv_file)
-print("Percentage of found:", found/(not_found+found))
-end = time.time()
-print("Time taken:", end - start)
+path = '/Users/guillermodelvalle/Downloads/img-celeba/img_celeba/'
+process_directory(path, csv_file, dict)
+#print("Percentage of found:", found/(not_found+found))
+#end = time.time()
+#print("Time taken:", end - start)
