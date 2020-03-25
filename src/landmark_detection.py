@@ -6,12 +6,14 @@ import dlib
 import csv
 import time
 from natsort import natsorted
+import subprocess
 
 start = time.time()
 
 found = 0
 not_found = 0
 detector = dlib.get_frontal_face_detector()
+
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 #imported from face_utils
@@ -130,7 +132,11 @@ def get_rect(rects, bbox):
         return closest_bbox
 
 #works on entire directories
-def process_directory(dir, csv_file, dict, aligned = False):
+def process_directory(dir, csv_file, dict):
+    if not os.path.exists("detected_opencv"):
+        os.mkdir("detected_opencv")
+    if not os.path.exists("not_detected"):
+        os.mkdir("not_detected")
     list = []
     global detector
     global predictor
@@ -151,20 +157,15 @@ def process_directory(dir, csv_file, dict, aligned = False):
             if len(rects) == 0:
                 not_found += 1
                 shape = None
-                if not os.path.exists("not_detected"):
-                    os.mkdir("not_detected")
+
                 cv2.imwrite(os.path.join('not_detected/'+entry), img)
             else:
-                if not os.path.exists("detected_opencv"):
-                    os.mkdir("detected_opencv")
+
                 ##NEED TO TEST THE BOTTOM PART ON UNALIGNED IMAGES
-                #print(dict[entry][1],dict[entry][1]+dict[entry][3],dict[entry][0],dict[entry][0]+dict[entry][2])
-                #if not aligned:
 
                 found += 1
                 #this part identifies the features using dlib's face predictor
                 rect = get_rect(rects, dict[entry])
-                #print(rects[0].top(), rects[0].left())
                 left = rects[0].left()
                 right = rects[0].right()
                 top = rects[0].top()
@@ -173,13 +174,9 @@ def process_directory(dir, csv_file, dict, aligned = False):
                     left = 0
                 if(top < 0):
                     top = 0
-                #crop_img = img[dict[entry][0]:dict[entry][0]+dict[entry][2],dict[entry][1]:dict[entry][1]+dict[entry][3]]
-                #print(rects[0],rects[0]+rects[2],rects[1],rects[1]+rects[3])
                 crop_img = img[top:bottom,left:right]
                 crop_img = cv2.resize(crop_img,(178,218))
                 cv2.imwrite(os.path.join('detected_opencv/'+entry), crop_img)
-                #print(rects)
-                #for (i,rect) in enumerate(rects):
                 shape = predictor(img_gray, rect)
                 shape = shape_to_np(shape)
                 (x,y,w,h) = rect_to_bb(rect)
@@ -199,11 +196,31 @@ def process_directory(dir, csv_file, dict, aligned = False):
     df.to_csv(csv_file)
     return
 
+def process_directory_openface(dir, csv_file, dict):
+    if not os.path.exists("OpenFace_landmarks"):
+        os.mkdir("OpenFace_landmarks")
+    if not os.path.exists("not_detected"):
+        os.mkdir("not_detected")
+    OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir ../OpenFace_landmarks/'
+    subprocess.call(OpenFaceBashCommand.split())
+    list = []
+    global detector
+    global predictor
+    global found
+    global not_found
+    for i in range(68): #this section creates the columns for the csv file (hardcoded to work with 68 predictor)
+        list.append(("x_"+str(i),"y_"+str(i)))
+    df = pd.DataFrame(columns=[col for col in list])
+    return
+
 dict = use_bbox('/Users/guillermodelvalle/Desktop/celeba-dataset-2/list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
 path = '/Users/guillermodelvalle/Downloads/img-celeba/img_celeba/'
-process_directory(path, csv_file, dict)
+OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
+print(OpenFaceBashCommand)
+#process_directory(path, csv_file, dict)
+process_directory_openface(path, csv_file, dict)
 #print("Percentage of found:", found/(not_found+found))
 #end = time.time()
 #print("Time taken:", end - start)
