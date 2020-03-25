@@ -213,10 +213,10 @@ def process_directory_openface(dir, csv_file, dict):
     df = pd.DataFrame(columns=[col for col in list])
     return
 
-dict = use_bbox('/Users/guillermodelvalle/Desktop/celeba-dataset-2/list_bbox_celeba.csv')
+dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/Users/guillermodelvalle/Downloads/img-celeba/img_celeba/'
+path = '/guillermodelvalle/img-celeba/'
 OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
