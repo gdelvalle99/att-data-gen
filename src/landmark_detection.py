@@ -7,6 +7,7 @@ import csv
 import time
 from natsort import natsorted
 import subprocess
+import point
 
 start = time.time()
 
@@ -97,7 +98,7 @@ def crop_images(dir, rect):
     return
 
 #finished
-def extract_landmarks(name,shape, df):
+def extract_landmarks_opencv(name,shape, df):
 
     list = []
     for i in shape:
@@ -109,6 +110,21 @@ def extract_landmarks(name,shape, df):
 
 
     return df
+
+def extract_landmarks_openface(name,dir,df):
+    entry = dir + name + ".csv"
+    list = []
+    old_df = pd.read_csv(entry)
+    for i in range(68):
+        value = (old_df.at[1,"x_"+i], old_df.at[1,"y_"+i])
+        list.append(value)
+
+    df_length = len(df)
+    df.loc[df_length] = list
+    df.index = df.index[:-1].tolist() + [name]
+
+    return df
+
 
 def get_rect_OpenCV(rects, bbox):
     #print(len(rects))
@@ -231,19 +247,19 @@ def process_directory_openface(dir, csv_file, dict):
     global found
     global not_found
     for i in range(68): #this section creates the columns for the csv file (hardcoded to work with 68 predictor)
-        list.append(("x_"+str(i),"y_"+str(i)))
+        list.append(("x_"+str(i)", y_"+str(i)))
     df = pd.DataFrame(columns=[col for col in list])
 
-    return
+    return df
 
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/home/guillermodelvalle/img_celeba'
-OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
+path = '/src'
+#OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
-process_directory_openface(path, csv_file, dict)
+print(process_directory_openface(path, csv_file, dict))
 #print("Percentage of found:", found/(not_found+found))
 #end = time.time()
 #print("Time taken:", end - start)
