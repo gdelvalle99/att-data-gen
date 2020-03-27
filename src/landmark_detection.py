@@ -241,7 +241,7 @@ dict = use_bbox('list_bbox_celeba.csv')
 csv_file = 'test.csv'
 path = '/guillermodelvalle/img-celeba/'
 OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
-print(OpenFaceBashCommand)
+#print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
 process_directory_openface(path, csv_file, dict)
 #print("Percentage of found:", found/(not_found+found))
