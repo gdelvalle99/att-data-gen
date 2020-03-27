@@ -110,7 +110,28 @@ def extract_landmarks(name,shape, df):
 
     return df
 
-def get_rect(rects, bbox):
+def get_rect_OpenCV(rects, bbox):
+    #print(len(rects))
+    if(len(rects) == 1):
+        return rects[0]
+    else:
+        (x1, y1, w1, h1) = bbox
+        celebA_bbox = np.array((x1,y1))
+        dist = float("inf")
+        closest_bbox = None
+        print(rects)
+        for i,rect in enumerate(rects):
+            print(rect)
+            (x, y, w, h) = rect_to_bb(rect)
+            dlib_bbox = np.array((x,y))
+            #print(celebA_bbox - dlib_bbox)
+            if np.linalg.norm(celebA_bbox - dlib_bbox) < dist:
+                closest_bbox = rect
+                dist = np.linalg.norm(celebA_bbox - dlib_bbox)
+        #print(closest_bbox)
+        return closest_bbox
+
+def get_rect_OpenFace(rects, bbox):
     #print(len(rects))
     if(len(rects) == 1):
         return rects[0]
@@ -159,17 +180,18 @@ def process_directory(dir, csv_file, dict):
                 shape = None
 
                 cv2.imwrite(os.path.join('not_detected/'+entry), img)
+            #if a face is detected then we go through the cropping process
             else:
-
-                ##NEED TO TEST THE BOTTOM PART ON UNALIGNED IMAGES
 
                 found += 1
                 #this part identifies the features using dlib's face predictor
                 rect = get_rect(rects, dict[entry])
+                #here, the corners of the cropping square are identified
                 left = rects[0].left()
                 right = rects[0].right()
                 top = rects[0].top()
                 bottom = rects[0].bottom()
+                #here we check if the cropping square goes out of bounds, and if it does, we set the coordinates to 0. (might not be needed)
                 if(left < 0):
                     left = 0
                 if(top < 0):
@@ -211,6 +233,7 @@ def process_directory_openface(dir, csv_file, dict):
     for i in range(68): #this section creates the columns for the csv file (hardcoded to work with 68 predictor)
         list.append(("x_"+str(i),"y_"+str(i)))
     df = pd.DataFrame(columns=[col for col in list])
+
     return
 
 dict = use_bbox('list_bbox_celeba.csv')
