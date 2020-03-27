@@ -223,7 +223,7 @@ def process_directory_openface(dir, csv_file, dict):
         os.mkdir("OpenFace_landmarks")
     if not os.path.exists("not_detected"):
         os.mkdir("not_detected")
-    OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir ../OpenFace_landmarks/'
+    OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir ../OpenFace_landmarks/'
     subprocess.call(OpenFaceBashCommand.split())
     list = []
     global detector
@@ -239,7 +239,7 @@ def process_directory_openface(dir, csv_file, dict):
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/guillermodelvalle/img-celeba/'
+path = '/home/guillermodelvalle/img-celeba/'
 OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
