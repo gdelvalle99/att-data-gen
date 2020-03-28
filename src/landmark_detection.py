@@ -112,11 +112,14 @@ def extract_landmarks_opencv(name,shape, df):
     return df
 
 def extract_landmarks_openface(name,dir,df):
-    entry = dir + name + ".csv"
+    entry = dir + name[:-4] + ".csv"
+    if(os.path.isfile(entry) is False):
+        return df
     list = []
     old_df = pd.read_csv(entry)
     for i in range(68):
-        value = (old_df.at[1,"x_"+i], old_df.at[1,"y_"+i])
+        print(old_df.at[0," x_"+str(i)], old_df.at[0," y_"+str(i)])
+        value = (old_df.at[0," x_"+str(i)], old_df.at[0," y_"+str(i)])
         list.append(value)
 
     df_length = len(df)
@@ -247,15 +250,17 @@ def process_directory_openface(dir, csv_file, dict):
     global found
     global not_found
     for i in range(68): #this section creates the columns for the csv file (hardcoded to work with 68 predictor)
-        list.append(("x_"+str(i)", y_"+str(i)))
+        list.append(("x_"+str(i),"y_"+str(i)))
     df = pd.DataFrame(columns=[col for col in list])
-
+    entries = natsorted(os.listdir(dir))
+    for entry in entries:
+        df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df)
     return df
 
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/src'
+path = '/home/guillermodelvalle/att-data-gen/src/'
 #OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
