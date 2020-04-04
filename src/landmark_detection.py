@@ -8,6 +8,7 @@ import time
 from natsort import natsorted
 import subprocess
 import point
+import shutil
 
 start = time.time()
 
@@ -111,10 +112,13 @@ def extract_landmarks_opencv(name,shape, df):
 
     return df
 
-def extract_landmarks_openface(name,dir,df):
+def extract_landmarks_openface(name,dir,df,file_name):
     entry = dir + name[:-4] + ".csv"
     if(os.path.isfile(entry) is False):
+        shutil.copy(file_name+name,"/OpenFace_not_detected")
         return df
+    else:
+        shutil.copy(file_name+name,"/OpenFace_detected")
     list = []
     old_df = pd.read_csv(entry)
     for i in range(68):
@@ -238,10 +242,10 @@ def process_directory(dir, csv_file, dict):
     return
 
 def process_directory_openface(dir, csv_file, dict):
-    if not os.path.exists("OpenFace_landmarks"):
-        os.mkdir("OpenFace_landmarks")
-    if not os.path.exists("not_detected"):
-        os.mkdir("not_detected")
+    if not os.path.exists("OpenFace_detected"):
+        os.mkdir("OpenFace_detected")
+    if not os.path.exists("OpenFace_not_detected"):
+        os.mkdir("OpenFace_not_detected")
     OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir ../OpenFace_landmarks/'
     subprocess.call(OpenFaceBashCommand.split())
     list = []
@@ -254,7 +258,7 @@ def process_directory_openface(dir, csv_file, dict):
     df = pd.DataFrame(columns=[col for col in list])
     entries = natsorted(os.listdir(dir))
     for entry in entries:
-        df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df)
+        df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df,dir)
     return df
 
 dict = use_bbox('list_bbox_celeba.csv')
