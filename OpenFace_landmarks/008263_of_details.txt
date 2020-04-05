@@ -1,0 +1,10 @@
+Input:/home/guillermodelvalle/img_celeba/008263.jpg
+Input full path:/home/guillermodelvalle/img_celeba/008263.jpg
+Camera parameters:409.375,409.375,240,213
+Output csv:008263.csv
+Gaze: 0
+AUs: 0
+Landmarks 2D: 1
+Landmarks 3D: 0
+Pose: 0
+Shape parameters: 0
