@@ -112,7 +112,7 @@ def extract_landmarks_opencv(name,shape, df):
 
     return df
 
-def extract_landmarks_openface(name,dir,df,file_name):
+def extract_landmarks_openface(name,dir,df,file_name,dict):
     entry = dir + name[:-4] + ".csv"
     if(os.path.isfile(entry) is False):
         if(os.path.isdir(file_name+name) is True):
@@ -128,6 +128,7 @@ def extract_landmarks_openface(name,dir,df,file_name):
         shutil.copy(filename,file_name+"/OpenFace_detected")
     list = []
     old_df = pd.read_csv(entry)
+    k = get_rect_OpenFace(old_df,dict)
     for i in range(68):
         print(old_df.at[0," x_"+str(i)], old_df.at[0," y_"+str(i)])
         value = (old_df.at[0," x_"+str(i)], old_df.at[0," y_"+str(i)])
@@ -161,23 +162,22 @@ def get_rect_OpenCV(rects, bbox):
         #print(closest_bbox)
         return closest_bbox
 
-def get_rect_OpenFace(rects, bbox):
+def get_rect_OpenFace(of_landmarks, bbox):
     #print(len(rects))
-    if(len(rects) == 1):
-        return rects[0]
+    if(len(of_landmarks.index) == 1):
+        return 0
     else:
         (x1, y1, w1, h1) = bbox
         celebA_bbox = np.array((x1,y1))
         dist = float("inf")
         closest_bbox = None
         print(rects)
-        for i,rect in enumerate(rects):
-            print(rect)
-            (x, y, w, h) = rect_to_bb(rect)
-            dlib_bbox = np.array((x,y))
+        for i in range(of_landmarks.index):
+            coords = np.array(((int(round(of_landmarks.iloc[i][0]))), (int(round(of_landmarks.iloc[i][68])))))
+            ##dlib_bbox = np.array((x,y))
             #print(celebA_bbox - dlib_bbox)
-            if np.linalg.norm(celebA_bbox - dlib_bbox) < dist:
-                closest_bbox = rect
+            if np.linalg.norm(celebA_bbox - coords) < dist:
+                closest_bbox = i
                 dist = np.linalg.norm(celebA_bbox - dlib_bbox)
         #print(closest_bbox)
         return closest_bbox
@@ -265,7 +265,7 @@ def process_directory_openface(dir, csv_file, dict):
     df = pd.DataFrame(columns=[col for col in list])
     entries = natsorted(os.listdir(dir))
     for entry in entries:
-        df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df,dir)
+        df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df,dir,dict[entry])
     return df
 
 #dict = use_bbox('list_bbox_celeba.csv')
