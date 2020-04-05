@@ -268,7 +268,7 @@ def process_directory_openface(dir, csv_file, dict):
         df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df,dir,dict[entry])
     return df
 
-#dict = use_bbox('list_bbox_celeba.csv')
+dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
 path = '/home/guillermodelvalle/att-data-gen/src/'
