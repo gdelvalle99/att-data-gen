@@ -26,7 +26,7 @@ def crop_openface(img,bbox):
     right = bbox[17]
     bottom = bbox[9]
     print(top,left,right,bottom)
-    crop = img[int(top[1]):int(bottom[1]), int(right[1]):int(left[1])]
+    crop = img[int(top[1]):int(bottom[1]), int(right[0]):int(left[0])]
     print(crop)
     return crop
 
