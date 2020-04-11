@@ -19,6 +19,15 @@ not_found = 0
 #predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 #imported from face_utils
+
+def crop_openface(img,bbox):
+    top = bbox[24]
+    left = bbox[0]
+    right = bbox[17]
+    bottom = bbox[9]
+    crop = img[bottom:top, left:right]
+    return crop
+
 def rect_to_bb(rect):
     x = rect.left()
     y = rect.top()
@@ -122,23 +131,26 @@ def extract_landmarks_openface(name,dir,df,file_name,dict):
         shutil.copy(filename,file_name+"/OpenFace_not_detected")
         return df
     else:
-        print(file_name+name)
+        #print(file_name+name)
         filename = file_name + name
-        print(file_name)
-        shutil.copy(filename,file_name+"/OpenFace_detected")
-    list = []
-    old_df = pd.read_csv(entry)
-    k = get_rect_OpenFace(old_df,dict)
-    for i in range(68):
-        print(old_df.at[0," x_"+str(i)], old_df.at[0," y_"+str(i)])
-        value = (old_df.at[0," x_"+str(i)], old_df.at[0," y_"+str(i)])
-        list.append(value)
+        #print(file_name)
+        #shutil.copy(filename,file_name+"/OpenFace_detected")
+        img = cv2.imread(filename)
+        list = []
+        old_df = pd.read_csv(entry)
+        k = get_rect_OpenFace(old_df,dict)
+        for i in range(68):
+            print(old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
+            value = (old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
+            list.append(value)
 
-    df_length = len(df)
-    df.loc[df_length] = list
-    df.index = df.index[:-1].tolist() + [name]
-
-    return df
+        df_length = len(df)
+        print(list)
+        df.loc[df_length] = list
+        df.index = df.index[:-1].tolist() + [name]
+        img = crop_openface(img,list)
+        cv2.imwrite(file_name+"/OpenFace_detected",img)
+        return df
 
 
 def get_rect_OpenCV(rects, bbox):
@@ -267,6 +279,7 @@ def process_directory_openface(dir, csv_file, dict):
     for entry in entries:
         df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df,dir,dict[entry])
     return df
+
 
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
