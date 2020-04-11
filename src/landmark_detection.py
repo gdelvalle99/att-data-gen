@@ -25,7 +25,7 @@ def crop_openface(img,bbox):
     left = bbox[0]
     right = bbox[17]
     bottom = bbox[9]
-    crop = img[bottom:top, left:right]
+    crop = img[bottom[1]:top[1], left[1]:right[1]]
     return crop
 
 def rect_to_bb(rect):
