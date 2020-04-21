@@ -23,23 +23,24 @@ not_found = 0
 def crop_openface(img,bbox):
     #bbox[24]
     dimensions = img.shape
-    top = (bbox[24] - (bbox[8]*1.1))
-    if(top[1] < 0):
-        top[1] = 0
-    left = bbox[0] - (bbox[17]-bbox[0])
-    if(left[0] < 0):
-        left[0] = 0
-    right = bbox[16] + (bbox[16]-bbox[26])
-    if(right[0] > img.shape[1]):
-        right[0] = img.shape[1]-1
 
-    bottom = bbox[9] + (bbox[33] - bbox[58])
-    if(bottom[1] > imgg.shape[0]):
-        bottom[1] = img.shape[0]-1
+    top = (bbox[24][1] - (bbox[8][1]*1.1))
+    if(top < 0):
+        top = 0
+    left = bbox[0][0] - (bbox[17][0]-bbox[0][0])
+    if(left < 0):
+        left = 0
+    right = bbox[16][0] + (bbox[16][0]-bbox[26][0])
+    if(right > img.shape[1]):
+        right = img.shape[1]-1
+
+    bottom = bbox[9][1] + (bbox[33][1] - bbox[58][1])
+    if(bottom > img.shape[0]):
+        bottom = img.shape[0]-1
     #right = bbox[17]
     #bottom = bbox[9]
     print(top,left,right,bottom)
-    crop = img[int(top[1]):int(bottom[1]), int(left[0]):int(right[0])]
+    crop = img[int(top):int(bottom), int(left):int(right)]
     print(crop)
     crop = cv2.resize(crop,(178,218))
     return crop
@@ -297,11 +298,11 @@ def process_directory_openface(dir, csv_file, dict):
     return df
 
 
-def process_landmarked_images(dir, df):
-    entries = natsorted(os.listdir(dir))
-    for entry in entries:
+#def process_landmarked_images(dir, df):
+#    entries = natsorted(os.listdir(dir))
+#    for entry in entries:
 
-    return
+#    return
 
 
 dict = use_bbox('list_bbox_celeba.csv')
