@@ -21,12 +21,25 @@ not_found = 0
 #imported from face_utils
 
 def crop_openface(img,bbox):
-    top = bbox[24]
-    left = bbox[0]
-    right = bbox[17]
-    bottom = bbox[9]
+    #bbox[24]
+    dimensions = img.shape
+    top = (bbox[24] - (bbox[8]*1.1))
+    if(top[1] < 0):
+        top[1] = 0
+    left = bbox[0] - (bbox[17]-bbox[0])
+    if(left[0] < 0):
+        left[0] = 0
+    right = bbox[16] + (bbox[16]-bbox[26])
+    if(right[0] > img.shape[1]):
+        right[0] = img.shape[1]-1
+
+    bottom = bbox[9] + (bbox[33] - bbox[58])
+    if(bottom[1] > imgg.shape[0]):
+        bottom[1] = img.shape[0]-1
+    #right = bbox[17]
+    #bottom = bbox[9]
     print(top,left,right,bottom)
-    crop = img[int(top[1]):int(bottom[1]), int(right[0]):int(left[0])]
+    crop = img[int(top[1]):int(bottom[1]), int(left[0]):int(right[0])]
     print(crop)
     crop = cv2.resize(crop,(178,218))
     return crop
