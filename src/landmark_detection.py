@@ -24,17 +24,17 @@ def crop_openface(img,bbox):
     #bbox[24]
     dimensions = img.shape
 
-    top = (bbox[24][1] - (bbox[8][1]*1.1))
+    top = (bbox[24][0] - (bbox[8][0]*1.1))
     if(top < 0):
         top = 0
-    left = bbox[0][0] - (bbox[17][0]-bbox[0][0])
+    left = bbox[0][1] - (bbox[17][1]-bbox[0][1])
     if(left < 0):
         left = 0
-    right = bbox[16][0] + (bbox[16][0]-bbox[26][0])
+    right = bbox[16][1] + (bbox[16][1]-bbox[26][1])
     if(right > img.shape[1]):
         right = img.shape[1]-1
 
-    bottom = bbox[9][1] + (bbox[33][1] - bbox[58][1])
+    bottom = bbox[9][0] + (bbox[33][0] - bbox[58][0])
     if(bottom > img.shape[0]):
         bottom = img.shape[0]-1
     #right = bbox[17]
