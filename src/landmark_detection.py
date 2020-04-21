@@ -28,6 +28,7 @@ def crop_openface(img,bbox):
     print(top,left,right,bottom)
     crop = img[int(top[1]):int(bottom[1]), int(right[0]):int(left[0])]
     print(crop)
+    crop = cv2.resize(crop,(178,218))
     return crop
 
 def rect_to_bb(rect):
@@ -283,6 +284,13 @@ def process_directory_openface(dir, csv_file, dict):
     return df
 
 
+def process_landmarked_images(dir, df):
+    entries = natsorted(os.listdir(dir))
+    for entry in entries:
+
+    return
+
+
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
@@ -290,7 +298,7 @@ path = '/home/guillermodelvalle/att-data-gen/src/'
 #OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
-print(process_directory_openface(path, csv_file, dict))
+df = process_directory_openface(path, csv_file, dict)
 #print("Percentage of found:", found/(not_found+found))
 #end = time.time()
 #print("Time taken:", end - start)
