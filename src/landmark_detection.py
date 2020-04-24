@@ -298,21 +298,35 @@ def process_directory_openface(dir, csv_file, dict):
     return df
 
 
-#def process_landmarked_images(dir, df):
-#    entries = natsorted(os.listdir(dir))
-#    for entry in entries:
+def create_new_csv(df, csv_file):
+    old_df = pd.read_csv(csv_file)
+    labels = old_df.iloc[0]
+    newdf = pd.DataFrame(columns=labels)
+    for i in range(len(df)):
+        df_length = len(newdf)
+        name = df.loc[i,"image_id"]
+        print(name)
+        row = df.loc[name]
+        newdf.loc[df_length]= row
+        newdf.index = df.index[:-1].tolist() + [name]
+    #entries = natsorted(os.listdir(dir))
+    #for entry in entries:
+    #    img = cv2.imread(dir+"/"+entry)
 
-#    return
+
+    return newdf
 
 
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/home/guillermodelvalle/att-data-gen/src/'
+path = '/home/guillermodelvalle/att-data-gen/src/images'
 #OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
 df = process_directory_openface(path, csv_file, dict)
+features = create_new_csv(df,'list_attr_celeba.csv')
+print(features)
 #print("Percentage of found:", found/(not_found+found))
 #end = time.time()
 #print("Time taken:", end - start)
