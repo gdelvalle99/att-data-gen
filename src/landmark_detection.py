@@ -325,6 +325,13 @@ def create_new_csv(df, csv_file):
     return newdf
 
 
+
+def Big_Lips(img,df):
+    points = np.array([])
+    return
+def generate_masks(img,df):
+    return
+
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
@@ -333,6 +340,7 @@ path = '/home/guillermodelvalle/att-data-gen/src/images'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
 df = process_directory_openface(path, csv_file, dict)
+print(df)
 features = create_new_csv(df,'list_attr_celeba.csv')
 print(features)
 #print("Percentage of found:", found/(not_found+found))
