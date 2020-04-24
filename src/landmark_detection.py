@@ -22,6 +22,7 @@ not_found = 0
 
 def crop_openface(img,bbox):
     #bbox[24]
+    #print(img)
     dimensions = img.shape
 
     top = (bbox[24][1] - (bbox[8][1]*1.1))
@@ -144,12 +145,13 @@ def extract_landmarks_openface(name,dir,df,file_name,dict):
         if(os.path.isdir(file_name+name) is True):
             return df
         filename = file_name+name
-        print(file_name)
+        #print(file_name)
         shutil.copy(filename,file_name+"/OpenFace_not_detected")
         return df
     else:
         #print(file_name+name)
-        filename = file_name + name
+        filename = file_name+'/' + name
+        #print(filename)
         #print(file_name)
         #shutil.copy(filename,file_name+"/OpenFace_detected")
         img = cv2.imread(filename)
@@ -157,12 +159,12 @@ def extract_landmarks_openface(name,dir,df,file_name,dict):
         old_df = pd.read_csv(entry)
         k = get_rect_OpenFace(old_df,dict)
         for i in range(68):
-            print(old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
+           # print(old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
             value = (old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
             list.append(value)
 
         df_length = len(df)
-        print(list)
+       # print(list)
         df.loc[df_length] = list
         df.index = df.index[:-1].tolist() + [name]
         img = crop_openface(img,list)
@@ -179,7 +181,7 @@ def get_rect_OpenCV(rects, bbox):
         celebA_bbox = np.array((x1,y1))
         dist = float("inf")
         closest_bbox = None
-        print(rects)
+      #  print(rects)
         for i,rect in enumerate(rects):
             print(rect)
             (x, y, w, h) = rect_to_bb(rect)
@@ -200,7 +202,7 @@ def get_rect_OpenFace(of_landmarks, bbox):
         celebA_bbox = np.array((x1,y1))
         dist = float("inf")
         closest_bbox = None
-        print(rects)
+     #   print(rects)
         for i in range(of_landmarks.index):
             coords = np.array(((int(round(of_landmarks.iloc[i][0]))), (int(round(of_landmarks.iloc[i][68])))))
             ##dlib_bbox = np.array((x,y))
@@ -300,15 +302,21 @@ def process_directory_openface(dir, csv_file, dict):
 
 def create_new_csv(df, csv_file):
     old_df = pd.read_csv(csv_file)
-    labels = old_df.iloc[0]
-    newdf = pd.DataFrame(columns=labels)
-    for i in range(len(df)):
-        df_length = len(newdf)
-        name = df.loc[i,"image_id"]
-        print(name)
-        row = df.loc[name]
-        newdf.loc[df_length]= row
-        newdf.index = df.index[:-1].tolist() + [name]
+    labels = old_df.columns.values
+    rows = df.index.values
+    #print(old_df.index.values)
+    #print(old_df.loc[0])
+    newdf = pd.DataFrame(columns=labels)#,index=rows)
+    #print(newdf)
+    for i in range(0,len(df)):
+       # df_length = len(newdf)
+        name = df.index[i]
+        name = int(name[:-4]) - 1
+        row = old_df.loc[name]
+        #print(row)
+        newdf.loc[name]= row
+        #print(newdf.iloc[i])
+        #newdf.index = df.index[:-1].tolist() + [name]
     #entries = natsorted(os.listdir(dir))
     #for entry in entries:
     #    img = cv2.imread(dir+"/"+entry)
