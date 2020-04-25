@@ -139,7 +139,7 @@ def extract_landmarks_opencv(name,shape, df):
 
     return df
 
-def extract_landmarks_openface(name,dir,df,file_name,dict):
+def extract_landmarks_openface(name,dir,df,file_name,dict,out):
     entry = dir + name[:-4] + ".csv"
     if(os.path.isfile(entry) is False):
         if(os.path.isdir(file_name+name) is True):
@@ -168,8 +168,9 @@ def extract_landmarks_openface(name,dir,df,file_name,dict):
         df.loc[df_length] = list
         df.index = df.index[:-1].tolist() + [name]
         img = crop_openface(img,list)
-        print(file_name+'OpenFace_detected/'+name)
-        cv2.imwrite(file_name+"/OpenFace_detected/"+name,img)
+        #print(file_name+'OpenFace_detected/'+name)
+        cv2.imwrite(out+"/"+name,img)
+        print(out+"/"+name)
         return df
 
 
@@ -216,8 +217,8 @@ def get_rect_OpenFace(of_landmarks, bbox):
 
 #works on entire directories
 def process_directory(dir, csv_file, dict):
-    if not os.path.exists("images/detected_opencv"):
-        os.mkdir("images/detected_opencv")
+    if not os.path.exists("detected_opencv"):
+        os.mkdir("detected_opencv")
     if not os.path.exists("not_detected"):
         os.mkdir("not_detected")
     list = []
@@ -297,7 +298,7 @@ def process_directory_openface(dir, csv_file, dict):
     df = pd.DataFrame(columns=[col for col in list])
     entries = natsorted(os.listdir(dir))
     for entry in entries:
-        df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df,dir,dict[entry])
+        df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df,dir,dict[entry],"OpenFace_detected")
     return df
 
 
