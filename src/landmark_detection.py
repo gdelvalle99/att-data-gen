@@ -168,6 +168,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict):
         df.loc[df_length] = list
         df.index = df.index[:-1].tolist() + [name]
         img = crop_openface(img,list)
+        print(file_name+'OpenFace_detected/'+name)
         cv2.imwrite(file_name+"/OpenFace_detected/"+name,img)
         return df
 
@@ -215,8 +216,8 @@ def get_rect_OpenFace(of_landmarks, bbox):
 
 #works on entire directories
 def process_directory(dir, csv_file, dict):
-    if not os.path.exists("detected_opencv"):
-        os.mkdir("detected_opencv")
+    if not os.path.exists("images/detected_opencv"):
+        os.mkdir("images/detected_opencv")
     if not os.path.exists("not_detected"):
         os.mkdir("not_detected")
     list = []
@@ -335,17 +336,18 @@ def Big_Lips(img_n,df):
 
 def generate_masks(img,index,df):
     points = Big_Lips(index,df)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img.fill(0)
-    cv2.fillPoly(img=img,pts=points,color=255,lineType=cv2.LINE_AA)
-    arr = np.array(img.getdata(), dtype=np.uint8)
+    #print(img)
+    img_bin = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img_bin.fill(0)
+    cv2.fillPoly(img=img_bin,pts=points,color=255,lineType=cv2.LINE_AA)
+    arr = np.array(img_bin)
     np.save("npy_"+str(index),arr)
-    return img
+    return img_bin
 
 def process_images(df,features,dir):
     for i in range(len(df)):
         name = df.index[i]
-        print(dir,name)
+        print(dir+'/'+name)
         img = cv2.imread(str(dir+'/'+name))
         mask = generate_masks(img,i,df)
         cv2.imwrite(os.path.join(dir+'/'+'mask_'+str(i)+'.jpg'), mask)
@@ -359,11 +361,11 @@ path = '/home/guillermodelvalle/att-data-gen/src/images'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
 df = process_directory_openface(path, csv_file, dict)
-print(df)
+#print(df)
 #print(df.iloc[0,0])
 features = create_new_csv(df,'list_attr_celeba.csv')
-print(features)
-process_images(df,features,'/OpenFace_detected')
+#print(features)
+process_images(df,features,path)
 #print("Percentage of found:", found/(not_found+found))
 #end = time.time()
 #print("Time taken:", end - start)
