@@ -326,10 +326,24 @@ def create_new_csv(df, csv_file):
 
 
 
-def Big_Lips(img,df):
-    points = np.array([])
-    return
-def generate_masks(img,df):
+def Big_Lips(img_n,df):
+    points = np.array([[df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
+        df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
+        df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
+        df.iloc[img_n,59],df.iloc[img_n,48]]],dtype=np.int32)
+    return points
+def generate_masks(img,index,df):
+    points = Big_Lips(index,df)
+    cv2.fillPoly(img=img,pts=points,color=255,lineType=cv2.LINE_AA)
+    return img
+
+def process_images(df,features,dir):
+    for i in range(len(df)):
+        name = df.index[i]
+        print(dir,name)
+        img = cv2.imread(str(dir+'/'+name))
+        mask = generate_masks(img,i,df)
+        cv2.imwrite(os.path.join(dir+'/'+'mask_'+str(i)+'.jpg'), mask)
     return
 
 dict = use_bbox('list_bbox_celeba.csv')
@@ -341,8 +355,10 @@ path = '/home/guillermodelvalle/att-data-gen/src/images'
 #process_directory(path, csv_file, dict)
 df = process_directory_openface(path, csv_file, dict)
 print(df)
+#print(df.iloc[0,0])
 features = create_new_csv(df,'list_attr_celeba.csv')
 print(features)
+process_images(df,features,path)
 #print("Percentage of found:", found/(not_found+found))
 #end = time.time()
 #print("Time taken:", end - start)
