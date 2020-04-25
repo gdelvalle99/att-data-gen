@@ -332,9 +332,14 @@ def Big_Lips(img_n,df):
         df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
         df.iloc[img_n,59],df.iloc[img_n,48]]],dtype=np.int32)
     return points
+
 def generate_masks(img,index,df):
     points = Big_Lips(index,df)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img.fill(0)
     cv2.fillPoly(img=img,pts=points,color=255,lineType=cv2.LINE_AA)
+    arr = np.array(img.getdata(), dtype=np.uint8)
+    np.save("npy_"+str(index),arr)
     return img
 
 def process_images(df,features,dir):
@@ -358,7 +363,7 @@ print(df)
 #print(df.iloc[0,0])
 features = create_new_csv(df,'list_attr_celeba.csv')
 print(features)
-process_images(df,features,path)
+process_images(df,features,'/OpenFace_detected')
 #print("Percentage of found:", found/(not_found+found))
 #end = time.time()
 #print("Time taken:", end - start)
