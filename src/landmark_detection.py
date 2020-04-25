@@ -341,17 +341,19 @@ def generate_masks(img,index,df):
     img_bin = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img_bin.fill(0)
     cv2.fillPoly(img=img_bin,pts=points,color=255,lineType=cv2.LINE_AA)
+    img_bin = crop_openface(img_bin,df.iloc[index])
+    print(img_bin.shape)
     arr = np.array(img_bin)
     np.save("npy_"+str(index),arr)
     return img_bin
 
-def process_images(df,features,dir):
+def process_images(df,features,dir,out):
     for i in range(len(df)):
         name = df.index[i]
         print(dir+'/'+name)
         img = cv2.imread(str(dir+'/'+name))
         mask = generate_masks(img,i,df)
-        cv2.imwrite(os.path.join(dir+'/'+'mask_'+str(i)+'.jpg'), mask)
+        cv2.imwrite(os.path.join(out+str(i)+'.jpg'), mask)
     return
 
 dict = use_bbox('list_bbox_celeba.csv')
@@ -366,7 +368,8 @@ df = process_directory_openface(path, csv_file, dict)
 #print(df.iloc[0,0])
 features = create_new_csv(df,'list_attr_celeba.csv')
 #print(features)
-process_images(df,features,'OpenFace_detected')
+print(df)
+process_images(df,features,path,'OpenFace_detected/')
 #print("Percentage of found:", found/(not_found+found))
 #end = time.time()
 #print("Time taken:", end - start)
