@@ -327,33 +327,195 @@ def create_new_csv(df, csv_file):
     return newdf
 
 
+def five_oclock_shadow(img_n,df):
+    points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],
+    df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],df.iloc[img_n,54],df.iloc[img_n,55],
+    df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,58]]])
+    return points
 
-def Big_Lips(img_n,df):
+def arched_eyebrows(img_n,df):
+    return points
+
+def attractive(img_n,df):
+    return points
+
+def bags_under_eyes(img_n,df):
+    return points
+
+def bald(img_n,df):
+    return points
+
+def bangs(img_n,df):
+    return points
+
+def big_lips(img_n,df):
     points = np.array([[df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
         df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
         df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
         df.iloc[img_n,59],df.iloc[img_n,48]]],dtype=np.int32)
     return points
 
+def big_nose(img_n,df):
+    return points
+
+def black_hair(img_n,df):
+    return points
+
+def blond_hair(img_n,df):
+    return points
+
+def blurry(img_n,df):
+    return points
+
+def brown_hair(img_n,df):
+    return points
+
+def bushy_eyebrows(img_n,df):
+    return points
+
+def chubby(img_n,df):
+    return points
+
+def double_chin(img_n,df):
+    return points
+
+def eyeglasses(img_n,df):
+    return points
+
+def goatee(img_n,df):
+    return points
+
+def gray_hair(img_n,df):
+    return points
+
+def heavy_makeup(img_n,df):
+    return points
+
+def high_cheekbones(img_n,df):
+    return points
+
+def male(img_n,df):
+    return points
+
+def mouth_slightly_open(img_n,df):
+    return points
+
+def mustache(img_n,df):
+    return points
+
+def narrow_eyes(img_n,df):
+    return points
+
+def no_beard(img_n,df):
+    return points
+
+def oval_face(img_n,df):
+    return points
+
+def pale_skin(img_n,df):
+    return points
+
+def pointy_nose(img_n,df):
+    return points
+
+def receding_hairline(img_n,df):
+    return points
+
+def rosy_cheeks(img_n,df):
+    return points
+
+def sideburns(img_n,df):
+    return points
+
+def smiling(img_n,df):
+    return points
+
+def straight_hair(img_n,df):
+    return points
+
+def wavy_hair(img_n,df):
+    return points
+
+def wearing_earrings(img_n,df):
+    return points
+
+def wearing_hat(img_n,df):
+    return points
+
+def wearing_lipstick(img_n,df):
+    return points
+
+def wearing_necklace(img_n,df):
+    return points
+
+def wearing_necktie(img_n,df):
+    return points
+
+def young(img_n,df):
+    return points 
+
+fn_dict = {
+    '5_o_Clock_Shadow': five_oclock_shadow,
+    'Arched_Eyebrows': arched_eyebrows,
+    'Attractive': attractive,
+    'Bags_Under_Eyes': bags_under_eyes,
+    'Bald': bald,
+    'Bangs': bangs,
+    'Big_Lips': big_lips,
+    'Big_Nose': big_nose,
+    'Black_Hair': black_hair,
+    'Blond_Hair': blond_hair,
+    'Blurry': blurry,
+    'Brown_Hair': brown_hair,
+    'Bushy_Eyebrows': bushy_eyebrows,
+    'Chubby': chubby,
+    'Double_Chin': double_chin,
+    'Eyeglasses': eyeglasses,
+    'Goatee': goatee,
+    'Gray_Hair': gray_hair,
+    'Heavy_Makeup': heavy_makeup,
+    'High_Cheekbones': high_cheekbones,
+    'Male': male,
+    'Mouth_Slightly_Open': mouth_slightly_open,
+    'Mustache': mustache,
+    'Narrow_Eyes': narrow_eyes,
+    'No_Beard': no_beard,
+    'Oval_Face': oval_face,
+    'Pale_Skin': pale_skin,
+    'Pointy_Nose': pointy_nose,
+    'Receding_Hairline': receding_hairline,
+    'Rosy_Cheeks': rosy_cheeks,
+    'Sideburns': sideburns,
+    'Smiling': smiling,
+    'Straight_Hair': straight_hair,
+    'Wavy_Hair': wavy_hair,
+    'Wearing_Earrings': wearing_earrings,
+    'Wearing_Hat': wearing_hat,
+    'Wearing_Lipstick': wearing_lipstick,
+    'Wearing_Necklace': wearing_necklace,
+    'Wearing_Necktie': wearing_necktie,
+    'Young': young
+}
+
 def generate_masks(img,index,df):
-    points = Big_Lips(index,df)
-    #print(img)
-    img_bin = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img_bin.fill(0)
-    cv2.fillPoly(img=img_bin,pts=points,color=255,lineType=cv2.LINE_AA)
-    img_bin = crop_openface(img_bin,df.iloc[index])
-    print(img_bin.shape)
-    arr = np.array(img_bin)
-    np.save("npy_"+str(index),arr)
-    return img_bin
+    for fn in fn_dict.keys():
+        points = fn_dict[fn](index,df)
+        img_bin = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        img_bin.fill(0)
+        cv2.fillPoly(img=img_bin,pts=points,color=255,lineType=cv2.LINE_AA)
+        img_bin = crop_openface(img_bin,df.iloc[index])
+        print(img_bin.shape)
+        arr = np.array(img_bin)
+        np.save("npy_"+str(index),arr)
+        yield img_bin, fn
 
 def process_images(df,features,dir,out):
     for i in range(len(df)):
         name = df.index[i]
         print(dir+'/'+name)
         img = cv2.imread(str(dir+'/'+name))
-        mask = generate_masks(img,i,df)
-        cv2.imwrite(os.path.join(out+str(i)+'.jpg'), mask)
+        for mask,fn in generate_masks(img,i,df):
+            cv2.imwrite(os.path.join(out+fn+'.jpg'), mask)
     return
 
 dict = use_bbox('list_bbox_celeba.csv')
