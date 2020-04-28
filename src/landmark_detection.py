@@ -327,19 +327,28 @@ def create_new_csv(df, csv_file):
     return newdf
 
 
-def five_oclock_shadow(img_n,df):
+def five_oclock_shadow(img_n,df):##NOT DONE
     points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],
     df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],df.iloc[img_n,54],df.iloc[img_n,55],
     df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,58]]])
     return points
 
 def arched_eyebrows(img_n,df):
+    points = np.array([[[df.iloc[img_n,17],df.iloc[img_n,18],df.iloc[img_n,19],
+        df.iloc[img_n,20],df.iloc[img_n,21]],[df.iloc[img_n,22],df.iloc[img_n,23],
+        df.iloc[img_n,24],df.iloc[img_n,25],df.iloc[img_n,26]]]])
     return points
 
 def attractive(img_n,df):
     return points
 
 def bags_under_eyes(img_n,df):
+    points = np.array([[[df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+        df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+        df.iloc[img_n,45],df.iloc[img_n,16]]]])
     return points
 
 def bald(img_n,df):
@@ -356,6 +365,7 @@ def big_lips(img_n,df):
     return points
 
 def big_nose(img_n,df):
+    points = np.array([[df.iloc[img_n,31]]])
     return points
 
 def black_hair(img_n,df):
@@ -371,6 +381,9 @@ def brown_hair(img_n,df):
     return points
 
 def bushy_eyebrows(img_n,df):
+    points = np.array([[[df.iloc[img_n,17],df.iloc[img_n,18],df.iloc[img_n,19],
+        df.iloc[img_n,20],df.iloc[img_n,21]],[df.iloc[img_n,22],df.iloc[img_n,23],
+        df.iloc[img_n,24],df.iloc[img_n,25],df.iloc[img_n,26]]]])
     return points
 
 def chubby(img_n,df):
@@ -383,27 +396,66 @@ def eyeglasses(img_n,df):
     return points
 
 def goatee(img_n,df):
+    points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],
+        df.iloc[img_n,8],df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],
+        df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,48]]])
     return points
 
 def gray_hair(img_n,df):
     return points
 
 def heavy_makeup(img_n,df):
+    points = np.array([[[df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+        df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+        df.iloc[img_n,45],df.iloc[img_n,16]]##these are the cheeks
+        ,[df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
+        df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
+        df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
+        df.iloc[img_n,59],df.iloc[img_n,48]],##this is the mouth
+        [df.iloc[img_n,36],df.iloc[img_n,37],df.iloc[img_n,38],
+        df.iloc[img_n,39],df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36]],
+        [df.iloc[img_n,42],df.iloc[img_n,43],df.iloc[img_n,44],df.iloc[img_n,45],
+        df.iloc[img_n,46],df.iloc[img_n,47],df.iloc[img_n,42]],##these are the eyes
+        [df.iloc[img_n,17],df.iloc[img_n,18],df.iloc[img_n,19],
+        df.iloc[img_n,20],df.iloc[img_n,21]],[df.iloc[img_n,22],df.iloc[img_n,23],
+        df.iloc[img_n,24],df.iloc[img_n,25],df.iloc[img_n,26]]]])##these are the eyebrows
     return points
 
 def high_cheekbones(img_n,df):
+    points = np.array([[[df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+        df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+        df.iloc[img_n,45],df.iloc[img_n,16]]]])
     return points
 
 def male(img_n,df):
     return points
 
 def mouth_slightly_open(img_n,df):
+    points = np.array([[df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
+        df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
+        df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
+        df.iloc[img_n,59],df.iloc[img_n,48]]],dtype=np.int32)
     return points
 
 def mustache(img_n,df):
+    points = np.array([[df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],df.iloc[img_n,35],df.iloc[img_n,54],
+        df.iloc[img_n,53],df.iloc[img_n,52],df.iloc[img_n,51],df.iloc[img_n,50],
+        df.iloc[img_n,49],df.iloc[img_n,48]]])
     return points
 
 def narrow_eyes(img_n,df):
+    points = np.array([[[df.iloc[img_n,36],df.iloc[img_n,37],df.iloc[img_n,38],
+        df.iloc[img_n,39],df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36]],
+        [df.iloc[img_n,42],df.iloc[img_n,43],df.iloc[img_n,44],df.iloc[img_n,45],
+        df.iloc[img_n,46],df.iloc[img_n,47],df.iloc[img_n,42]]]])
     return points
 
 def no_beard(img_n,df):
@@ -416,18 +468,35 @@ def pale_skin(img_n,df):
     return points
 
 def pointy_nose(img_n,df):
+    points = np.array([[]])
     return points
 
 def receding_hairline(img_n,df):
     return points
 
 def rosy_cheeks(img_n,df):
+    points = np.array([[[df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+        df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+        df.iloc[img_n,45],df.iloc[img_n,16]]]])
     return points
 
 def sideburns(img_n,df):
+    points = np.array([[[df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+        df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+        df.iloc[img_n,45],df.iloc[img_n,16]]]])
     return points
 
 def smiling(img_n,df):
+    points = np.array([[df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
+        df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
+        df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
+        df.iloc[img_n,59],df.iloc[img_n,48]]],dtype=np.int32)
     return points
 
 def straight_hair(img_n,df):
@@ -443,6 +512,10 @@ def wearing_hat(img_n,df):
     return points
 
 def wearing_lipstick(img_n,df):
+    points = np.array([[df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
+        df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
+        df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
+        df.iloc[img_n,59],df.iloc[img_n,48]]],dtype=np.int32)
     return points
 
 def wearing_necklace(img_n,df):
@@ -452,7 +525,7 @@ def wearing_necktie(img_n,df):
     return points
 
 def young(img_n,df):
-    return points 
+    return points
 
 fn_dict = {
     '5_o_Clock_Shadow': five_oclock_shadow,
@@ -502,11 +575,12 @@ def generate_masks(img,index,df):
         points = fn_dict[fn](index,df)
         img_bin = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         img_bin.fill(0)
-        cv2.fillPoly(img=img_bin,pts=points,color=255,lineType=cv2.LINE_AA)
+        for point in points:
+            cv2.fillPoly(img=img_bin,pts=point,color=255,lineType=cv2.LINE_AA)
         img_bin = crop_openface(img_bin,df.iloc[index])
         print(img_bin.shape)
         arr = np.array(img_bin)
-        np.save("npy_"+str(index),arr)
+        np.save("npy_"+str(index)+"_"+fn,arr)
         yield img_bin, fn
 
 def process_images(df,features,dir,out):
