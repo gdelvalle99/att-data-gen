@@ -327,7 +327,7 @@ def create_new_csv(df, csv_file):
     return newdf
 
 
-def five_oclock_shadow(img_n,df):##NOT DONE
+def five_oclock_shadow(img_n,df):
     points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],
     df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],df.iloc[img_n,54],df.iloc[img_n,55],
     df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,58]],
@@ -358,7 +358,61 @@ def arched_eyebrows(img_n,df):
     return points
 
 def attractive(img_n,df):
-    return None
+    border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
+    border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
+    if border1 < 0:
+        border1 = 0
+    if border2 < 0:
+        border2 = 0
+    points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],
+        df.iloc[img_n,8],df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],
+        df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,48]],##here is the chin
+        [df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+        df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+        df.iloc[img_n,45],df.iloc[img_n,16]],##here are the cheeks
+        [df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],df.iloc[img_n,35],df.iloc[img_n,54],
+        df.iloc[img_n,53],df.iloc[img_n,52],df.iloc[img_n,51],df.iloc[img_n,50],
+        df.iloc[img_n,49],df.iloc[img_n,48]],##here is the upper lip
+        [df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],df.iloc[img_n,9],
+        df.iloc[img_n,10],df.iloc[img_n,11],[df.iloc[img_n,11][0],df.iloc[img_n,11][1]-(df.iloc[img_n,33][1] - df.iloc[img_n,58][1])],
+        [df.iloc[img_n,10][0],df.iloc[img_n,10][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,9][0],df.iloc[img_n,9][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,8][0],df.iloc[img_n,8][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,7][0],df.iloc[img_n,7][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,6][0],df.iloc[img_n,6][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,5][0],df.iloc[img_n,5][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])]],##here is the neck
+        [df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
+        df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
+        df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
+        df.iloc[img_n,59],df.iloc[img_n,48]],##here is the mouth
+        [df.iloc[img_n,36],df.iloc[img_n,37],df.iloc[img_n,38],
+        df.iloc[img_n,39],df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36]],
+        [df.iloc[img_n,42],df.iloc[img_n,43],df.iloc[img_n,44],df.iloc[img_n,45],
+        df.iloc[img_n,46],df.iloc[img_n,47],df.iloc[img_n,42]],##here are the eyes
+        [[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],[df.iloc[img_n,35][0]+(df.iloc[img_n,35][0]-df.iloc[img_n,34][0]),df.iloc[img_n,35][1]],
+        df.iloc[img_n,42],df.iloc[img_n,27],df.iloc[img_n,39],[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]]],## here is the nose
+        [df.iloc[img_n,17],df.iloc[img_n,18],df.iloc[img_n,19],
+        df.iloc[img_n,20],df.iloc[img_n,21]],[df.iloc[img_n,22],df.iloc[img_n,23],
+        df.iloc[img_n,24],df.iloc[img_n,25],df.iloc[img_n,26]],## here are the eyebrows
+        [df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
+        [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]],##here is the top of head
+        [[df.iloc[img_n,0][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,0][0]),df.iloc[img_n,0][1]],
+        [df.iloc[img_n,1][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,1][0]),df.iloc[img_n,1][1]],
+        [df.iloc[img_n,2][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,2][0]),df.iloc[img_n,2][1]],
+        [df.iloc[img_n,3][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,3][0]),df.iloc[img_n,3][1]],
+        df.iloc[img_n,3],df.iloc[img_n,2],df.iloc[img_n,1],df.iloc[img_n,0]],
+        [[df.iloc[img_n,16][0]+(df.iloc[img_n,16][0]-df.iloc[img_n,26][0]),df.iloc[img_n,16][1]],
+        [df.iloc[img_n,15][0]+(df.iloc[img_n,15][0]-df.iloc[img_n,26][0]),df.iloc[img_n,15][1]],
+        [df.iloc[img_n,14][0]+(df.iloc[img_n,14][0]-df.iloc[img_n,26][0]),df.iloc[img_n,14][1]],
+        [df.iloc[img_n,13][0]+(df.iloc[img_n,13][0]-df.iloc[img_n,26][0]),df.iloc[img_n,13][1]],
+        df.iloc[img_n,13],df.iloc[img_n,14],df.iloc[img_n,15],df.iloc[img_n,16]]],dtype=np.int32)##here are the ears
+    return points
 
 def bags_under_eyes(img_n,df):
     points = np.array([[df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
@@ -427,7 +481,61 @@ def blond_hair(img_n,df):
     return points
 
 def blurry(img_n,df):
-    return None
+    border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
+    border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
+    if border1 < 0:
+        border1 = 0
+    if border2 < 0:
+        border2 = 0
+    points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],
+        df.iloc[img_n,8],df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],
+        df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,48]],##here is the chin
+        [df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+        df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+        df.iloc[img_n,45],df.iloc[img_n,16]],##here are the cheeks
+        [df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],df.iloc[img_n,35],df.iloc[img_n,54],
+        df.iloc[img_n,53],df.iloc[img_n,52],df.iloc[img_n,51],df.iloc[img_n,50],
+        df.iloc[img_n,49],df.iloc[img_n,48]],##here is the upper lip
+        [df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],df.iloc[img_n,9],
+        df.iloc[img_n,10],df.iloc[img_n,11],[df.iloc[img_n,11][0],df.iloc[img_n,11][1]-(df.iloc[img_n,33][1] - df.iloc[img_n,58][1])],
+        [df.iloc[img_n,10][0],df.iloc[img_n,10][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,9][0],df.iloc[img_n,9][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,8][0],df.iloc[img_n,8][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,7][0],df.iloc[img_n,7][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,6][0],df.iloc[img_n,6][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,5][0],df.iloc[img_n,5][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])]],##here is the neck
+        [df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
+        df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
+        df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
+        df.iloc[img_n,59],df.iloc[img_n,48]],##here is the mouth
+        [df.iloc[img_n,36],df.iloc[img_n,37],df.iloc[img_n,38],
+        df.iloc[img_n,39],df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36]],
+        [df.iloc[img_n,42],df.iloc[img_n,43],df.iloc[img_n,44],df.iloc[img_n,45],
+        df.iloc[img_n,46],df.iloc[img_n,47],df.iloc[img_n,42]],##here are the eyes
+        [[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],[df.iloc[img_n,35][0]+(df.iloc[img_n,35][0]-df.iloc[img_n,34][0]),df.iloc[img_n,35][1]],
+        df.iloc[img_n,42],df.iloc[img_n,27],df.iloc[img_n,39],[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]]],## here is the nose
+        [df.iloc[img_n,17],df.iloc[img_n,18],df.iloc[img_n,19],
+        df.iloc[img_n,20],df.iloc[img_n,21]],[df.iloc[img_n,22],df.iloc[img_n,23],
+        df.iloc[img_n,24],df.iloc[img_n,25],df.iloc[img_n,26]],## here are the eyebrows
+        [df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
+        [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]],##here is the top of head
+        [[df.iloc[img_n,0][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,0][0]),df.iloc[img_n,0][1]],
+        [df.iloc[img_n,1][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,1][0]),df.iloc[img_n,1][1]],
+        [df.iloc[img_n,2][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,2][0]),df.iloc[img_n,2][1]],
+        [df.iloc[img_n,3][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,3][0]),df.iloc[img_n,3][1]],
+        df.iloc[img_n,3],df.iloc[img_n,2],df.iloc[img_n,1],df.iloc[img_n,0]],
+        [[df.iloc[img_n,16][0]+(df.iloc[img_n,16][0]-df.iloc[img_n,26][0]),df.iloc[img_n,16][1]],
+        [df.iloc[img_n,15][0]+(df.iloc[img_n,15][0]-df.iloc[img_n,26][0]),df.iloc[img_n,15][1]],
+        [df.iloc[img_n,14][0]+(df.iloc[img_n,14][0]-df.iloc[img_n,26][0]),df.iloc[img_n,14][1]],
+        [df.iloc[img_n,13][0]+(df.iloc[img_n,13][0]-df.iloc[img_n,26][0]),df.iloc[img_n,13][1]],
+        df.iloc[img_n,13],df.iloc[img_n,14],df.iloc[img_n,15],df.iloc[img_n,16]]],dtype=np.int32)##here are the ears
+    return points
 
 def brown_hair(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
@@ -447,7 +555,39 @@ def bushy_eyebrows(img_n,df):
     return points
 
 def chubby(img_n,df):
-    return None
+    points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],
+        df.iloc[img_n,8],df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],
+        df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,48]],##here is the chin
+        [df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+        df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+        df.iloc[img_n,45],df.iloc[img_n,16]],##here are the cheeks
+        [df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],df.iloc[img_n,35],df.iloc[img_n,54],
+        df.iloc[img_n,53],df.iloc[img_n,52],df.iloc[img_n,51],df.iloc[img_n,50],
+        df.iloc[img_n,49],df.iloc[img_n,48]],##here is the upper lip
+        [df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],df.iloc[img_n,9],
+        df.iloc[img_n,10],df.iloc[img_n,11],[df.iloc[img_n,11][0],df.iloc[img_n,11][1]-(df.iloc[img_n,33][1] - df.iloc[img_n,58][1])],
+        [df.iloc[img_n,10][0],df.iloc[img_n,10][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,9][0],df.iloc[img_n,9][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,8][0],df.iloc[img_n,8][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,7][0],df.iloc[img_n,7][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,6][0],df.iloc[img_n,6][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,5][0],df.iloc[img_n,5][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])]],##here is the neck
+        [df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
+        df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
+        df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
+        df.iloc[img_n,59],df.iloc[img_n,48]],##here is the mouth
+        [[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],[df.iloc[img_n,35][0]+(df.iloc[img_n,35][0]-df.iloc[img_n,34][0]),df.iloc[img_n,35][1]],
+        df.iloc[img_n,42],df.iloc[img_n,27],df.iloc[img_n,39],[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]]],## here is the nose
+        [df.iloc[img_n,17],df.iloc[img_n,18],df.iloc[img_n,19],
+        df.iloc[img_n,20],df.iloc[img_n,21]],[df.iloc[img_n,22],df.iloc[img_n,23],
+        df.iloc[img_n,24],df.iloc[img_n,25],df.iloc[img_n,26]]],dtype=np.int32)## here are the eyebrows
+    return points
 
 def double_chin(img_n,df):
     points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],df.iloc[img_n,9],
@@ -461,7 +601,30 @@ def double_chin(img_n,df):
     return points
 
 def eyeglasses(img_n,df):
-    return None
+    points = np.array([[df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+    df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+    df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+    df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+    df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+    df.iloc[img_n,45],df.iloc[img_n,16]],##here are the cheeks
+    [df.iloc[img_n,36],df.iloc[img_n,37],df.iloc[img_n,38],
+    df.iloc[img_n,39],df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36]],
+    [df.iloc[img_n,42],df.iloc[img_n,43],df.iloc[img_n,44],df.iloc[img_n,45],
+    df.iloc[img_n,46],df.iloc[img_n,47],df.iloc[img_n,42]],## here are the eyes
+    [df.iloc[img_n,17],df.iloc[img_n,18],df.iloc[img_n,19],
+    df.iloc[img_n,20],df.iloc[img_n,21]],[df.iloc[img_n,22],df.iloc[img_n,23],
+    df.iloc[img_n,24],df.iloc[img_n,25],df.iloc[img_n,26]],##here are the eyebrows
+    [[df.iloc[img_n,0][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,0][0]),df.iloc[img_n,0][1]],
+    [df.iloc[img_n,1][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,1][0]),df.iloc[img_n,1][1]],
+    [df.iloc[img_n,2][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,2][0]),df.iloc[img_n,2][1]],
+    [df.iloc[img_n,3][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,3][0]),df.iloc[img_n,3][1]],
+    df.iloc[img_n,3],df.iloc[img_n,2],df.iloc[img_n,1],df.iloc[img_n,0]],
+    [[df.iloc[img_n,16][0]+(df.iloc[img_n,16][0]-df.iloc[img_n,26][0]),df.iloc[img_n,16][1]],
+    [df.iloc[img_n,15][0]+(df.iloc[img_n,15][0]-df.iloc[img_n,26][0]),df.iloc[img_n,15][1]],
+    [df.iloc[img_n,14][0]+(df.iloc[img_n,14][0]-df.iloc[img_n,26][0]),df.iloc[img_n,14][1]],
+    [df.iloc[img_n,13][0]+(df.iloc[img_n,13][0]-df.iloc[img_n,26][0]),df.iloc[img_n,13][1]],
+    df.iloc[img_n,13],df.iloc[img_n,14],df.iloc[img_n,15],df.iloc[img_n,16]]],dtype=np.int32)##here are the ears
+    return points
 
 def goatee(img_n,df):
     points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],
@@ -511,7 +674,61 @@ def high_cheekbones(img_n,df):
     return points
 
 def male(img_n,df):
-    return None
+    border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
+    border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
+    if border1 < 0:
+        border1 = 0
+    if border2 < 0:
+        border2 = 0
+    points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],
+        df.iloc[img_n,8],df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],
+        df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,48]],##here is the chin
+        [df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+        df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+        df.iloc[img_n,45],df.iloc[img_n,16]],##here are the cheeks
+        [df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],df.iloc[img_n,35],df.iloc[img_n,54],
+        df.iloc[img_n,53],df.iloc[img_n,52],df.iloc[img_n,51],df.iloc[img_n,50],
+        df.iloc[img_n,49],df.iloc[img_n,48]],##here is the upper lip
+        [df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],df.iloc[img_n,9],
+        df.iloc[img_n,10],df.iloc[img_n,11],[df.iloc[img_n,11][0],df.iloc[img_n,11][1]-(df.iloc[img_n,33][1] - df.iloc[img_n,58][1])],
+        [df.iloc[img_n,10][0],df.iloc[img_n,10][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,9][0],df.iloc[img_n,9][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,8][0],df.iloc[img_n,8][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,7][0],df.iloc[img_n,7][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,6][0],df.iloc[img_n,6][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,5][0],df.iloc[img_n,5][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])]],##here is the neck
+        [df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
+        df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
+        df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
+        df.iloc[img_n,59],df.iloc[img_n,48]],##here is the mouth
+        [df.iloc[img_n,36],df.iloc[img_n,37],df.iloc[img_n,38],
+        df.iloc[img_n,39],df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36]],
+        [df.iloc[img_n,42],df.iloc[img_n,43],df.iloc[img_n,44],df.iloc[img_n,45],
+        df.iloc[img_n,46],df.iloc[img_n,47],df.iloc[img_n,42]],##here are the eyes
+        [[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],[df.iloc[img_n,35][0]+(df.iloc[img_n,35][0]-df.iloc[img_n,34][0]),df.iloc[img_n,35][1]],
+        df.iloc[img_n,42],df.iloc[img_n,27],df.iloc[img_n,39],[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]]],## here is the nose
+        [df.iloc[img_n,17],df.iloc[img_n,18],df.iloc[img_n,19],
+        df.iloc[img_n,20],df.iloc[img_n,21]],[df.iloc[img_n,22],df.iloc[img_n,23],
+        df.iloc[img_n,24],df.iloc[img_n,25],df.iloc[img_n,26]],## here are the eyebrows
+        [df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
+        [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]],##here is the top of head
+        [[df.iloc[img_n,0][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,0][0]),df.iloc[img_n,0][1]],
+        [df.iloc[img_n,1][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,1][0]),df.iloc[img_n,1][1]],
+        [df.iloc[img_n,2][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,2][0]),df.iloc[img_n,2][1]],
+        [df.iloc[img_n,3][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,3][0]),df.iloc[img_n,3][1]],
+        df.iloc[img_n,3],df.iloc[img_n,2],df.iloc[img_n,1],df.iloc[img_n,0]],
+        [[df.iloc[img_n,16][0]+(df.iloc[img_n,16][0]-df.iloc[img_n,26][0]),df.iloc[img_n,16][1]],
+        [df.iloc[img_n,15][0]+(df.iloc[img_n,15][0]-df.iloc[img_n,26][0]),df.iloc[img_n,15][1]],
+        [df.iloc[img_n,14][0]+(df.iloc[img_n,14][0]-df.iloc[img_n,26][0]),df.iloc[img_n,14][1]],
+        [df.iloc[img_n,13][0]+(df.iloc[img_n,13][0]-df.iloc[img_n,26][0]),df.iloc[img_n,13][1]],
+        df.iloc[img_n,13],df.iloc[img_n,14],df.iloc[img_n,15],df.iloc[img_n,16]]],dtype=np.int32)##here are the ears
+    return points
 
 def mouth_slightly_open(img_n,df):
     points = np.array([[df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
@@ -560,7 +777,36 @@ def oval_face(img_n,df):
     return None
 
 def pale_skin(img_n,df):
-    return None
+    points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],
+        df.iloc[img_n,8],df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],
+        df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,48]],##here is the chin
+        [df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+        df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+        df.iloc[img_n,45],df.iloc[img_n,16]],##here are the cheeks
+        [df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],df.iloc[img_n,35],df.iloc[img_n,54],
+        df.iloc[img_n,53],df.iloc[img_n,52],df.iloc[img_n,51],df.iloc[img_n,50],
+        df.iloc[img_n,49],df.iloc[img_n,48]],##here is the upper lip
+        [df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],df.iloc[img_n,9],
+        df.iloc[img_n,10],df.iloc[img_n,11],[df.iloc[img_n,11][0],df.iloc[img_n,11][1]-(df.iloc[img_n,33][1] - df.iloc[img_n,58][1])],
+        [df.iloc[img_n,10][0],df.iloc[img_n,10][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,9][0],df.iloc[img_n,9][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,8][0],df.iloc[img_n,8][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,7][0],df.iloc[img_n,7][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,6][0],df.iloc[img_n,6][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,5][0],df.iloc[img_n,5][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])]],##here is the neck
+        [df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
+        df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
+        df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
+        df.iloc[img_n,59],df.iloc[img_n,48]],##here is the mouth
+        [[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],[df.iloc[img_n,35][0]+(df.iloc[img_n,35][0]-df.iloc[img_n,34][0]),df.iloc[img_n,35][1]],
+        df.iloc[img_n,42],df.iloc[img_n,27],df.iloc[img_n,39],[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31]]]],dtype=np.int32)
+    return points
 
 def pointy_nose(img_n,df):
     points = np.array([[[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]],df.iloc[img_n,32],
@@ -636,7 +882,7 @@ def wearing_earrings(img_n,df):
                         [df.iloc[img_n,15][0]+(df.iloc[img_n,15][0]-df.iloc[img_n,26][0]),df.iloc[img_n,15][1]],
                         [df.iloc[img_n,14][0]+(df.iloc[img_n,14][0]-df.iloc[img_n,26][0]),df.iloc[img_n,14][1]],
                         [df.iloc[img_n,13][0]+(df.iloc[img_n,13][0]-df.iloc[img_n,26][0]),df.iloc[img_n,13][1]],
-                        df.iloc[img_n,13],df.iloc[img_n,14],df.iloc[img_n,15],df.iloc[img_n,16]],dtype=np.int32)
+                        df.iloc[img_n,13],df.iloc[img_n,14],df.iloc[img_n,15],df.iloc[img_n,16]]],dtype=np.int32)
     return points
 
 def wearing_hat(img_n,df):
@@ -680,7 +926,61 @@ def wearing_necktie(img_n,df):
     return points
 
 def young(img_n,df):
-    return None
+    border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
+    border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
+    if border1 < 0:
+        border1 = 0
+    if border2 < 0:
+        border2 = 0
+    points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],
+        df.iloc[img_n,8],df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],
+        df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,48]],##here is the chin
+        [df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
+        df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
+        df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
+        df.iloc[img_n,45],df.iloc[img_n,16]],##here are the cheeks
+        [df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],df.iloc[img_n,35],df.iloc[img_n,54],
+        df.iloc[img_n,53],df.iloc[img_n,52],df.iloc[img_n,51],df.iloc[img_n,50],
+        df.iloc[img_n,49],df.iloc[img_n,48]],##here is the upper lip
+        [df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],df.iloc[img_n,9],
+        df.iloc[img_n,10],df.iloc[img_n,11],[df.iloc[img_n,11][0],df.iloc[img_n,11][1]-(df.iloc[img_n,33][1] - df.iloc[img_n,58][1])],
+        [df.iloc[img_n,10][0],df.iloc[img_n,10][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,9][0],df.iloc[img_n,9][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,8][0],df.iloc[img_n,8][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,7][0],df.iloc[img_n,7][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,6][0],df.iloc[img_n,6][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,5][0],df.iloc[img_n,5][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])]],##here is the neck
+        [df.iloc[img_n,48],df.iloc[img_n,49],df.iloc[img_n,50],
+        df.iloc[img_n,51],df.iloc[img_n,52],df.iloc[img_n,53],df.iloc[img_n,54],
+        df.iloc[img_n,55],df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],
+        df.iloc[img_n,59],df.iloc[img_n,48]],##here is the mouth
+        [df.iloc[img_n,36],df.iloc[img_n,37],df.iloc[img_n,38],
+        df.iloc[img_n,39],df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36]],
+        [df.iloc[img_n,42],df.iloc[img_n,43],df.iloc[img_n,44],df.iloc[img_n,45],
+        df.iloc[img_n,46],df.iloc[img_n,47],df.iloc[img_n,42]],##here are the eyes
+        [[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]],df.iloc[img_n,32],
+        df.iloc[img_n,33],df.iloc[img_n,34],[df.iloc[img_n,35][0]+(df.iloc[img_n,35][0]-df.iloc[img_n,34][0]),df.iloc[img_n,35][1]],
+        df.iloc[img_n,42],df.iloc[img_n,27],df.iloc[img_n,39],[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]]],## here is the nose
+        [df.iloc[img_n,17],df.iloc[img_n,18],df.iloc[img_n,19],
+        df.iloc[img_n,20],df.iloc[img_n,21]],[df.iloc[img_n,22],df.iloc[img_n,23],
+        df.iloc[img_n,24],df.iloc[img_n,25],df.iloc[img_n,26]],## here are the eyebrows
+        [df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
+        [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]],##here is the top of head
+        [[df.iloc[img_n,0][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,0][0]),df.iloc[img_n,0][1]],
+        [df.iloc[img_n,1][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,1][0]),df.iloc[img_n,1][1]],
+        [df.iloc[img_n,2][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,2][0]),df.iloc[img_n,2][1]],
+        [df.iloc[img_n,3][0]-(df.iloc[img_n,17][0]-df.iloc[img_n,3][0]),df.iloc[img_n,3][1]],
+        df.iloc[img_n,3],df.iloc[img_n,2],df.iloc[img_n,1],df.iloc[img_n,0]],
+        [[df.iloc[img_n,16][0]+(df.iloc[img_n,16][0]-df.iloc[img_n,26][0]),df.iloc[img_n,16][1]],
+        [df.iloc[img_n,15][0]+(df.iloc[img_n,15][0]-df.iloc[img_n,26][0]),df.iloc[img_n,15][1]],
+        [df.iloc[img_n,14][0]+(df.iloc[img_n,14][0]-df.iloc[img_n,26][0]),df.iloc[img_n,14][1]],
+        [df.iloc[img_n,13][0]+(df.iloc[img_n,13][0]-df.iloc[img_n,26][0]),df.iloc[img_n,13][1]],
+        df.iloc[img_n,13],df.iloc[img_n,14],df.iloc[img_n,15],df.iloc[img_n,16]]],dtype=np.int32)##here are the ears
+    return points
 
 fn_dict = {
     '5_o_Clock_Shadow': five_oclock_shadow,
