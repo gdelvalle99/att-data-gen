@@ -367,9 +367,10 @@ def attractive(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
+
     chin = np.array([df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],
     df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],df.iloc[img_n,54],df.iloc[img_n,55],
     df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,58]],dtype=np.int32)
@@ -455,9 +456,9 @@ def bald(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
 
     points = np.array([[df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
         [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]]],dtype=np.int32)
@@ -467,9 +468,9 @@ def bangs(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
     points = np.array([[df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
         [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]]],dtype=np.int32)
     return points
@@ -491,9 +492,9 @@ def black_hair(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
     points = np.array([[df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
         [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]]],dtype=np.int32)
     return points
@@ -502,9 +503,10 @@ def blond_hair(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
+
     points = np.array([[df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
         [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]]],dtype=np.int32)
     return points
@@ -513,9 +515,10 @@ def blurry(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
+
     chin = np.array([df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],
     df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],df.iloc[img_n,54],df.iloc[img_n,55],
     df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,58]],dtype=np.int32)
@@ -587,9 +590,10 @@ def brown_hair(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
+
     points = np.array([[df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
         [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]]],dtype=np.int32)
     return points
@@ -705,9 +709,9 @@ def gray_hair(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
     points = np.array([[df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
         [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]]],dtype=np.int32)
     return points
@@ -746,7 +750,7 @@ def heavy_makeup(img_n,df):
 def high_cheekbones(img_n,df):
     points = np.array([[df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
         df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
-        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,0]],[df.iloc[img_n,16],
         df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
         df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
         df.iloc[img_n,45],df.iloc[img_n,16]]],dtype=np.int32)
@@ -756,9 +760,10 @@ def male(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
+
     chin = np.array([df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],
     df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],df.iloc[img_n,54],df.iloc[img_n,55],
     df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,58]],dtype=np.int32)
@@ -927,9 +932,10 @@ def receding_hairline(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
+
     points = np.array([[df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
         [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]]],dtype=np.int32)
     return points
@@ -937,7 +943,7 @@ def receding_hairline(img_n,df):
 def rosy_cheeks(img_n,df):
     points = np.array([[df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
         df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
-        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,0]],[df.iloc[img_n,16],
         df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
         df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
         df.iloc[img_n,45],df.iloc[img_n,16]]],dtype=np.int32)
@@ -946,7 +952,7 @@ def rosy_cheeks(img_n,df):
 def sideburns(img_n,df):
     points = np.array([[df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
         df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
-        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],[df.iloc[img_n,16],
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,0]],[df.iloc[img_n,16],
         df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
         df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],
         df.iloc[img_n,45],df.iloc[img_n,16]]],dtype=np.int32)
@@ -963,9 +969,10 @@ def straight_hair(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
+
     points = np.array([[df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
         [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]]],dtype=np.int32)
     return points
@@ -974,9 +981,10 @@ def wavy_hair(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
+
     points = np.array([[df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
         [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]]],dtype=np.int32)
     return points
@@ -998,9 +1006,10 @@ def wearing_hat(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
+
     points = np.array([[df.iloc[img_n,24],[df.iloc[img_n,24][0],border1],
         [df.iloc[img_n,19][0],border2],df.iloc[img_n,19]]],dtype=np.int32)
     return points
@@ -1038,9 +1047,10 @@ def young(img_n,df):
     border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]*1.1) - df.iloc[img_n,33][1]
     if border1 < 0:
-        border1 = 0
+        border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
-        border2 = 0
+        border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
+        
     chin = np.array([df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],
     df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],df.iloc[img_n,54],df.iloc[img_n,55],
     df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,58]],dtype=np.int32)
