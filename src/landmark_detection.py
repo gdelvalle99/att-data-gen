@@ -328,7 +328,14 @@ def create_new_csv(df, csv_file):
 
 
 def five_oclock_shadow(img_n,df):
-    print(df.iloc[img_n,11][1]-(df.iloc[img_n,33][1] - df.iloc[img_n,58][1]))
+    print([df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],
+        [df.iloc[img_n,11][0],df.iloc[img_n,11][1]-(df.iloc[img_n,33][1] - df.iloc[img_n,58][1])],
+        [df.iloc[img_n,10][0],df.iloc[img_n,10][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,9][0],df.iloc[img_n,9][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,8][0],df.iloc[img_n,8][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,7][0],df.iloc[img_n,7][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        [df.iloc[img_n,6][0],df.iloc[img_n,6][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
+        (df.iloc[img_n,5][0],df.iloc[img_n,5][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1]))])
     points = np.array([[df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],
     df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],df.iloc[img_n,54],df.iloc[img_n,55],
     df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,58]],
@@ -341,15 +348,15 @@ def five_oclock_shadow(img_n,df):
         [df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,32],
         df.iloc[img_n,33],df.iloc[img_n,34],df.iloc[img_n,35],df.iloc[img_n,54],
         df.iloc[img_n,53],df.iloc[img_n,52],df.iloc[img_n,51],df.iloc[img_n,50],
-        df.iloc[img_n,49],df.iloc[img_n,48]],##upper lip
+        df.iloc[img_n,49],df.iloc[img_n,48]],
         [df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],
-        [df.iloc[img_n,11][0],df.iloc[img_n,11][1]-(df.iloc[img_n,33][1] - df.iloc[img_n,58][1])],
-        [df.iloc[img_n,10][0],df.iloc[img_n,10][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
-        [df.iloc[img_n,9][0],df.iloc[img_n,9][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
-        [df.iloc[img_n,8][0],df.iloc[img_n,8][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
-        [df.iloc[img_n,7][0],df.iloc[img_n,7][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
-        [df.iloc[img_n,6][0],df.iloc[img_n,6][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])],
-        [df.iloc[img_n,5][0],df.iloc[img_n,5][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])]]],dtype=np.int32)##neck
+        (df.iloc[img_n,11][0],df.iloc[img_n,11][1]-(df.iloc[img_n,33][1] - df.iloc[img_n,58][1])),
+        (df.iloc[img_n,10][0],df.iloc[img_n,10][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])),
+        (df.iloc[img_n,9][0],df.iloc[img_n,9][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])),
+        (df.iloc[img_n,8][0],df.iloc[img_n,8][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])),
+        (df.iloc[img_n,7][0],df.iloc[img_n,7][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])),
+        (df.iloc[img_n,6][0],df.iloc[img_n,6][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])),
+        (df.iloc[img_n,5][0],df.iloc[img_n,5][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1]))]],dtype=np.int32)##neck
     return points
 
 def arched_eyebrows(img_n,df):
