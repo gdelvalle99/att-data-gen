@@ -1162,7 +1162,7 @@ fn_dict = {
 }
 
 def binarize(arr):
-    bin = np.zeroes(arr.shape)
+    bin = np.zeros(arr.shape)
     for x,row in enumerate(arr):
         for y, cell in enumerate(row):
             if(cell == 255):
