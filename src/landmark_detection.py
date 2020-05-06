@@ -279,7 +279,7 @@ def process_directory(dir, csv_file, dict):
                 df.index = df.index[:-1].tolist() + [entry]
                 #df = extract_landmarks(entry,shape, df)
     df.to_csv(csv_file)
-    return
+    return df
 
 def process_directory_openface(dir, csv_file, dict):
     if not os.path.exists("OpenFace_detected"):
@@ -1169,30 +1169,26 @@ def binarize(arr):
                 bin[x,y] = 1
     return bin
 
-def generate_masks(img,index,df):
+def generate_masks(img,name,index,df):
     for fn in fn_dict.keys():
         points = fn_dict[fn](index,df)
         img_bin = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         img_bin.fill(0)
         if points is not None:
             for point in points:
-                print(fn)
                 point = np.expand_dims(point,axis=0)
-                print(point.shape)
                 cv2.fillPoly(img=img_bin,pts=point,color=255,lineType=cv2.LINE_AA)
         img_bin = crop_openface(img_bin,df.iloc[index])
-        print(img_bin.shape)
         file = binarize(img_bin)
-        np.save("npy_"+str(index)+"_"+fn,file)
+        np.save(name+"_"+fn,file)
         yield img_bin, fn
 
 def process_images(df,features,dir,out):
     for i in range(len(df)):
         name = df.index[i]
-        print(dir+'/'+name)
         img = cv2.imread(str(dir+'/'+name))
-        for mask,fn in generate_masks(img,i,df):
-            cv2.imwrite(os.path.join(out+name+'_'+fn+'.jpg'), mask)
+        for mask,fn in generate_masks(img,name[:-4],i,df):
+            cv2.imwrite(os.path.join(out+name[:-4]+'_'+fn+'.jpg'), mask)
     return
 
 dict = use_bbox('list_bbox_celeba.csv')
