@@ -920,7 +920,7 @@ def pale_skin(img_n,df):
 def pointy_nose(img_n,df):
     points = np.array([[[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]],df.iloc[img_n,32],
         df.iloc[img_n,33],df.iloc[img_n,34],[df.iloc[img_n,35][0]+(df.iloc[img_n,35][0]-df.iloc[img_n,34][0]),df.iloc[img_n,35][1]],
-        df.iloc[img_n,42],df.iloc[img_n,27],df.iloc[img_n,39],[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31]]]],dtype=np.int32)
+        df.iloc[img_n,42],df.iloc[img_n,27],df.iloc[img_n,39],[df.iloc[img_n,31][0]-(df.iloc[img_n,32][0]-df.iloc[img_n,31][0]),df.iloc[img_n,31][1]]]],dtype=np.int32)
     return points
 
 def receding_hairline(img_n,df):
