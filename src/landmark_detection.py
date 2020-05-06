@@ -1050,7 +1050,7 @@ def young(img_n,df):
         border1 = df.iloc[img_n,24][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1]*1.3
     if border2 < 0:
         border2 = df.iloc[img_n,19][1] - (df.iloc[img_n,8][1]) - df.iloc[img_n,33][1] * 1.3
-        
+
     chin = np.array([df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],
     df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],df.iloc[img_n,54],df.iloc[img_n,55],
     df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,58]],dtype=np.int32)
@@ -1161,6 +1161,14 @@ fn_dict = {
     'Young': young
 }
 
+def binarize(arr):
+    bin = np.zeroes(arr.shape)
+    for x,row in enumerate(arr):
+        for y, cell in enumerate(row):
+            if(cell == 255):
+                bin[x,y] = 1
+    return bin
+
 def generate_masks(img,index,df):
     for fn in fn_dict.keys():
         points = fn_dict[fn](index,df)
@@ -1174,8 +1182,8 @@ def generate_masks(img,index,df):
                 cv2.fillPoly(img=img_bin,pts=point,color=255,lineType=cv2.LINE_AA)
         img_bin = crop_openface(img_bin,df.iloc[index])
         print(img_bin.shape)
-        arr = np.array(img_bin)
-        np.save("npy_"+str(index)+"_"+fn,arr)
+        file = binarize(img_bin)
+        np.save("npy_"+str(index)+"_"+fn,file)
         yield img_bin, fn
 
 def process_images(df,features,dir,out):
@@ -1184,7 +1192,7 @@ def process_images(df,features,dir,out):
         print(dir+'/'+name)
         img = cv2.imread(str(dir+'/'+name))
         for mask,fn in generate_masks(img,i,df):
-            cv2.imwrite(os.path.join(out+fn+'.jpg'), mask)
+            cv2.imwrite(os.path.join(out+name+'_'+fn+'.jpg'), mask)
     return
 
 dict = use_bbox('list_bbox_celeba.csv')
