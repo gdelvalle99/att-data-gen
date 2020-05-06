@@ -330,16 +330,16 @@ def create_new_csv(df, csv_file):
 def five_oclock_shadow(img_n,df):
     chin = np.array([df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],
     df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],df.iloc[img_n,54],df.iloc[img_n,55],
-    df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,58]])
+    df.iloc[img_n,56],df.iloc[img_n,57],df.iloc[img_n,58],df.iloc[img_n,59],df.iloc[img_n,58]],dtype=np.int32)
 
     right_cheek = np.array([df.iloc[img_n,0],df.iloc[img_n,1],df.iloc[img_n,2],df.iloc[img_n,3],
         df.iloc[img_n,4],df.iloc[img_n,5],df.iloc[img_n,48],df.iloc[img_n,31],df.iloc[img_n,39],
-        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]])
+        df.iloc[img_n,40],df.iloc[img_n,41],df.iloc[img_n,36],df.iloc[img_n,9]],dtype=np.int32)
 
     left_cheek = np.array([df.iloc[img_n,16],
     df.iloc[img_n,15],df.iloc[img_n,14],df.iloc[img_n,13],df.iloc[img_n,12],df.iloc[img_n,11],
     df.iloc[img_n,54],df.iloc[img_n,35],df.iloc[img_n,42],df.iloc[img_n,47],df.iloc[img_n,46],##cheeks
-    df.iloc[img_n,45],df.iloc[img_n,16]])
+    df.iloc[img_n,45],df.iloc[img_n,16]],dtype=np.int32)
 
     neck = np.array([df.iloc[img_n,5],df.iloc[img_n,6],df.iloc[img_n,7],df.iloc[img_n,8],df.iloc[img_n,9],df.iloc[img_n,10],df.iloc[img_n,11],
     (df.iloc[img_n,11][0],df.iloc[img_n,11][1]-(df.iloc[img_n,33][1] - df.iloc[img_n,58][1])),
@@ -348,8 +348,8 @@ def five_oclock_shadow(img_n,df):
     (df.iloc[img_n,8][0],df.iloc[img_n,8][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])),
     (df.iloc[img_n,7][0],df.iloc[img_n,7][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])),
     (df.iloc[img_n,6][0],df.iloc[img_n,6][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1])),
-    (df.iloc[img_n,5][0],df.iloc[img_n,5][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1]))])
-    points = np.array([chin, right_cheek, left_cheek, neck],dtype=np.int32)##neck
+    (df.iloc[img_n,5][0],df.iloc[img_n,5][1]-(df.iloc[img_n,33][1]-df.iloc[img_n,58][1]))],dtype=np.int32)
+    points = [chin, right_cheek, left_cheek, neck]##neck
     return points
 
 def arched_eyebrows(img_n,df):
@@ -1030,7 +1030,6 @@ def generate_masks(img,index,df):
         img_bin = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         img_bin.fill(0)
         if points is not None:
-            print(points.shape)
             for point in points:
                 print(fn)
                 point = np.expand_dims(point,axis=0)
