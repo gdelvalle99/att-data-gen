@@ -148,7 +148,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
             return df
         filename = file_name+name
         #print(file_name)
-        shutil.copy(filename,file_name+"/OpenFace_not_detected")
+        shutil.copy(filename,"/home/guillermodelvalle/OpenFace_not_detected")
         return df
     else:
         #print(file_name+name)
@@ -285,9 +285,9 @@ def process_directory(dir, csv_file, dict):
 
 def process_directory_openface(dir, csv_file, dict):
     if not os.path.exists("OpenFace_detected"):
-        os.mkdir("OpenFace_detected")
+        os.mkdir("/home/guillermodelvalle/OpenFace_detected")
     if not os.path.exists("OpenFace_not_detected"):
-        os.mkdir("OpenFace_not_detected")
+        os.mkdir("/home/guillermodelvalle/OpenFace_not_detected")
     OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir ../OpenFace_landmarks/'
     subprocess.call(OpenFaceBashCommand.split())
     list = []
@@ -300,7 +300,7 @@ def process_directory_openface(dir, csv_file, dict):
     df = pd.DataFrame(columns=[col for col in list])
     entries = natsorted(os.listdir(dir))
     for entry in entries:
-        df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df,dir,dict[entry],"OpenFace_detected")
+        df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
     return df
 
 
@@ -1182,7 +1182,7 @@ def generate_masks(img,name,index,df):
                 cv2.fillPoly(img=img_bin,pts=point,color=255,lineType=cv2.LINE_AA)
         img_bin = crop_openface(img_bin,df.iloc[index],cropsize)
         file = binarize(img_bin)
-        np.save(name+"_"+fn,file)
+        np.save("/home/guillermodelvalle/OpenFace_masks/npy/"+name+"_"+fn,file)
         yield img_bin, fn
 
 def process_images(df,features,dir,out):
@@ -1192,9 +1192,10 @@ def process_images(df,features,dir,out):
     for i in range(len(df)):
         name = df.index[i]
         img = cv2.imread(str(dir+'/'+name))
+        file_df.at[name,"image_id"] = name
         for mask,fn in generate_masks(img,name[:-4],i,df):
-            cv2.imwrite(os.path.join(out+name[:-4]+'_'+fn+'.jpg'), mask)
-            file_df.at[name,fn] = out+name[:-4]+'_'+fn+'.jpg'
+            cv2.imwrite(os.path.join("/home/guillermodelvalle/OpenFace_masks/jpg/"+name[:-4]+'_'+fn+'.jpg'), mask)
+            file_df.at[name,fn] = name[:-4]+'_'+fn+'.jpg'
     print(file_df)
     return
 
@@ -1213,7 +1214,7 @@ df = process_directory_openface(path, csv_file, dict)
 features = create_new_csv(df,'list_attr_celeba.csv')
 #print(features)
 print(df)
-process_images(df,features,path,'OpenFace_detected/')
+process_images(df,features,path,'/home/guillermodelvalle/OpenFace_detected/')
 #print("Percentage of found:", found/(not_found+found))
 #end = time.time()
 #print("Time taken:", end - start)
