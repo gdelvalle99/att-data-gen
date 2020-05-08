@@ -19,8 +19,9 @@ not_found = 0
 #predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 #imported from face_utils
+cropsize = (178,218)
 
-def crop_openface(img,bbox):
+def crop_openface(img,bbox,size):
     #bbox[24]
     #print(img)
     dimensions = img.shape
@@ -43,7 +44,8 @@ def crop_openface(img,bbox):
     print(top,left,right,bottom)
     crop = img[int(top):int(bottom), int(left):int(right)]
     print(crop)
-    crop = cv2.resize(crop,(178,218))
+    crop = cv2.resize(crop,size)
+    crop = (crop > 0).astype(np.uint8) * 255
     return crop
 
 def rect_to_bb(rect):
@@ -1178,18 +1180,25 @@ def generate_masks(img,name,index,df):
             for point in points:
                 point = np.expand_dims(point,axis=0)
                 cv2.fillPoly(img=img_bin,pts=point,color=255,lineType=cv2.LINE_AA)
-        img_bin = crop_openface(img_bin,df.iloc[index])
+        img_bin = crop_openface(img_bin,df.iloc[index],cropsize)
         file = binarize(img_bin)
         np.save(name+"_"+fn,file)
         yield img_bin, fn
 
 def process_images(df,features,dir,out):
+    labels = features.columns.values
+    rows = df.index.values
+    file_df = pd.DataFrame(columns=labels,index=rows)
     for i in range(len(df)):
         name = df.index[i]
         img = cv2.imread(str(dir+'/'+name))
         for mask,fn in generate_masks(img,name[:-4],i,df):
             cv2.imwrite(os.path.join(out+name[:-4]+'_'+fn+'.jpg'), mask)
+            file_df.at[name,fn] = out+name[:-4]+'_'+fn+'.jpg'
+    print(file_df)
     return
+
+
 
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
