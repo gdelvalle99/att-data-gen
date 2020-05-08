@@ -141,6 +141,8 @@ def extract_landmarks_opencv(name,shape, df):
 
     return df
 
+global missed_count
+missed_count = 0
 def extract_landmarks_openface(name,dir,df,file_name,dict,out):
     entry = dir + name[:-4] + ".csv"
     if(os.path.isfile(entry) is False):
@@ -148,6 +150,8 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
             return df
         filename = file_name+name
         #print(file_name)
+        global missed_count
+        missed_count += 1
         shutil.copy(filename,"/home/guillermodelvalle/OpenFace_not_detected")
         return df
     else:
@@ -1218,3 +1222,4 @@ process_images(df,features,path,'/home/guillermodelvalle/OpenFace_detected/')
 #print("Percentage of found:", found/(not_found+found))
 #end = time.time()
 #print("Time taken:", end - start)
+print(missed_count)
