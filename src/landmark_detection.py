@@ -169,7 +169,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
        # print(list)
         df.loc[df_length] = list
         df.index = df.index[:-1].tolist() + [name]
-        img = crop_openface(img,list)
+        img = crop_openface(img,list,cropsize)
         #print(file_name+'OpenFace_detected/'+name)
         cv2.imwrite(out+"/"+name,img)
         print(out+"/"+name)
