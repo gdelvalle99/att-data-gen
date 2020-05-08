@@ -1197,6 +1197,7 @@ def process_images(df,features,dir,out):
             cv2.imwrite(os.path.join("/home/guillermodelvalle/OpenFace_masks/jpg/"+name[:-4]+'_'+fn+'.jpg'), mask)
             file_df.at[name,fn] = name[:-4]+'_'+fn+'.jpg'
     print(file_df)
+    file_df.to_csv("final.csv")
     return
 
 
