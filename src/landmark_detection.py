@@ -176,7 +176,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
         img = crop_openface(img,list,cropsize)
         #print(file_name+'OpenFace_detected/'+name)
         cv2.imwrite(out+"/"+name,img)
-        print(out+"/"+name)
+        #print(out+"/"+name)
         return df
 
 
@@ -191,7 +191,7 @@ def get_rect_OpenCV(rects, bbox):
         closest_bbox = None
       #  print(rects)
         for i,rect in enumerate(rects):
-            print(rect)
+           # print(rect)
             (x, y, w, h) = rect_to_bb(rect)
             dlib_bbox = np.array((x,y))
             #print(celebA_bbox - dlib_bbox)
@@ -212,13 +212,13 @@ def get_rect_OpenFace(of_landmarks, bbox):
         closest_bbox = None
      #   print(rects)
         print(of_landmarks.index)
-        for i in range(of_landmarks.index):
+        for i in of_landmarks.index:
             coords = np.array(((int(round(of_landmarks.iloc[i][0]))), (int(round(of_landmarks.iloc[i][68])))))
             ##dlib_bbox = np.array((x,y))
             #print(celebA_bbox - dlib_bbox)
             if np.linalg.norm(celebA_bbox - coords) < dist:
                 closest_bbox = i
-                dist = np.linalg.norm(celebA_bbox - dlib_bbox)
+                dist = np.linalg.norm(celebA_bbox - celebA_bbox)
         #print(closest_bbox)
         return closest_bbox
 
