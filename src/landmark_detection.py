@@ -288,9 +288,9 @@ def process_directory(dir, csv_file, dict):
     return df
 
 def process_directory_openface(dir, csv_file, dict):
-    if not os.path.exists("OpenFace_detected"):
+    if not os.path.exists("/home/guillermodelvalle/OpenFace_detected"):
         os.mkdir("/home/guillermodelvalle/OpenFace_detected")
-    if not os.path.exists("OpenFace_not_detected"):
+    if not os.path.exists("/home/guillermodelvalle/OpenFace_not_detected"):
         os.mkdir("/home/guillermodelvalle/OpenFace_not_detected")
     OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir ../OpenFace_landmarks/'
     subprocess.call(OpenFaceBashCommand.split())
