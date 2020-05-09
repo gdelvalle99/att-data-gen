@@ -211,6 +211,7 @@ def get_rect_OpenFace(of_landmarks, bbox):
         dist = float("inf")
         closest_bbox = None
      #   print(rects)
+        print(of_landmarks.index)
         for i in range(of_landmarks.index):
             coords = np.array(((int(round(of_landmarks.iloc[i][0]))), (int(round(of_landmarks.iloc[i][68])))))
             ##dlib_bbox = np.array((x,y))
@@ -1209,7 +1210,7 @@ def process_images(df,features,dir,out):
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/home/guillermodelvalle/img_celeba'
+path = '/home/guillermodelvalle/test'
 #OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
