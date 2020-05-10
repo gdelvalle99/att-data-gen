@@ -31,12 +31,13 @@ def crop_openface(img,bbox,size):
         top = 0
 
     left = bbox[0][0] - (bbox[36][0]-bbox[0][0])
+    print(bbox[0][0])
     if(left < 0 or left > img.shape[1]):
         left = 0
     right = bbox[16][0] + (bbox[16][0]-bbox[45][0])
     if(right > img.shape[1] or right < 0):
         right = img.shape[1]-1
-
+    print(bbox[16][0])
     bottom = bbox[8][1] - (bbox[33][1] - bbox[8][1])
     if(bottom > img.shape[0] or bottom < 0):
         bottom = img.shape[0]-1
@@ -222,10 +223,12 @@ def get_rect_OpenFace(of_landmarks, bbox):
         closest_bbox = None
      #   print(rects)
     #    print(of_landmarks.index)
+        print(of_landmarks)
         for i in of_landmarks.index:
             coords = np.array(((int(round(of_landmarks.iloc[i][0]))), (int(round(of_landmarks.iloc[i][68])))))
             ##dlib_bbox = np.array((x,y))
             #print(celebA_bbox - dlib_bbox)
+            print(coords)
             if np.linalg.norm(celebA_bbox - coords) < dist:
                 closest_bbox = i
                 dist = np.linalg.norm(celebA_bbox - celebA_bbox)
