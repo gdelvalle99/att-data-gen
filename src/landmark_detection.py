@@ -7,7 +7,7 @@ import csv
 import time
 from natsort import natsorted
 import subprocess
-import point
+#import point
 import shutil
 
 start = time.time()
