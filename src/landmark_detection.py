@@ -148,7 +148,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
     if(os.path.isfile(entry) is False):
         if(os.path.isdir(file_name+name) is True):
             return df
-        filename = file_name+name
+        filename = file_name+'/'+name
         #print(file_name)
         global missed_count
         missed_count += 1
@@ -293,7 +293,7 @@ def process_directory_openface(dir, csv_file, dict):
     if not os.path.exists("/home/guillermodelvalle/OpenFace_not_detected"):
         os.mkdir("/home/guillermodelvalle/OpenFace_not_detected")
     OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir ../OpenFace_landmarks/'
-    subprocess.call(OpenFaceBashCommand.split())
+    #subprocess.call(OpenFaceBashCommand.split())
     list = []
     global detector
     global predictor
