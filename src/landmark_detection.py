@@ -41,7 +41,7 @@ def crop_openface(img,bbox,size):
         bottom = img.shape[0]-1
     #right = bbox[17]
     #bottom = bbox[9]
-    #print(top,left,right,bottom)
+    print(top,left,right,bottom)
     crop = img[int(top):int(bottom), int(left):int(right)]
     #print(crop)
     crop = cv2.resize(crop,size)
@@ -173,6 +173,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
        # print(list)
         df.loc[df_length] = list
         df.index = df.index[:-1].tolist() + [name]
+        print(filename)
         img = crop_openface(img,list,cropsize)
         #print(file_name+'OpenFace_detected/'+name)
         cv2.imwrite(out+"/"+name,img)
