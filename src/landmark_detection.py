@@ -1219,7 +1219,7 @@ def process_images(df,features,dir,out,id):
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/home/guillermodelvalle/img_celeba'
+path = '/home/guillermodelvalle/test'
 #OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
