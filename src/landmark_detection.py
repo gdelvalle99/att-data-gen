@@ -231,7 +231,7 @@ def get_rect_OpenFace(of_landmarks, bbox):
             print(coords)
             if np.linalg.norm(celebA_bbox - coords) < dist:
                 closest_bbox = i
-                dist = np.linalg.norm(celebA_bbox - celebA_bbox)
+                dist = np.linalg.norm(celebA_bbox - coords)
         #print(closest_bbox)
         return closest_bbox
 
