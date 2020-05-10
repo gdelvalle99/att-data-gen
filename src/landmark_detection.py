@@ -41,9 +41,9 @@ def crop_openface(img,bbox,size):
         bottom = img.shape[0]-1
     #right = bbox[17]
     #bottom = bbox[9]
-    print(top,left,right,bottom)
+    #print(top,left,right,bottom)
     crop = img[int(top):int(bottom), int(left):int(right)]
-    print(crop)
+    #print(crop)
     crop = cv2.resize(crop,size)
     crop = (crop > 0).astype(np.uint8) * 255
     return crop
@@ -71,7 +71,7 @@ def shape_to_np(shape, dtype="int"):
 
 #marks the face with opencv and dlib
 def find_facial_landmarks_opencv(img, name):
-    print("On", name)
+    #print("On", name)
     global found
     global not_found
     shape = None
@@ -1200,7 +1200,7 @@ def process_images(df,features,dir,out,id):
         for mask,fn in generate_masks(img,name[:-4],i,df):
             cv2.imwrite(os.path.join("/home/guillermodelvalle/OpenFace_masks/jpg/"+name[:-4]+'_'+fn+'.jpg'), mask)
             file_df.at[name,fn] = name[:-4]+'_'+fn+'.jpg'
-    print(file_df)
+    #print(file_df)
     file_df.to_csv(id+"final.csv")
     return
 
