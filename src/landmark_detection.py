@@ -41,9 +41,9 @@ def crop_openface(img,bbox,size):
         bottom = img.shape[0]-1
     #right = bbox[17]
     #bottom = bbox[9]
-    print(top,left,right,bottom)
+    #print(top,left,right,bottom)
     crop = img[int(top):int(bottom), int(left):int(right)]
-    #print(crop)
+    print(crop.shape)
     crop = cv2.resize(crop,size)
     crop = (crop > 0).astype(np.uint8) * 255
     return crop
