@@ -45,7 +45,7 @@ def crop_openface(img,bbox,size):
     crop = img[int(top):int(bottom), int(left):int(right)]
     print(crop.shape)
     crop = cv2.resize(crop,size)
-    crop = (crop > 0).astype(np.uint8) * 255
+    #crop = (crop > 0).astype(np.uint8) * 255
     return crop
 
 def rect_to_bb(rect):
