@@ -21,7 +21,7 @@ def shape_to_np(shape, dtype="int"):
 	return coords
 
 detector = dlib.get_frontal_face_detector()
-img = cv2.imread("030481.jpg")
+img = cv2.imread("039601.jpg")
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 rects = detector(img_gray,1)
