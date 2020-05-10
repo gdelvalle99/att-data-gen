@@ -43,7 +43,7 @@ def crop_openface(img,bbox,size):
         bottom = img.shape[0]-1
     #right = bbox[17]
     #bottom = bbox[9]
-    print(top,left,right,bottom)
+    #print(top,left,right,bottom)
     if(left > right):
         temp = left
         left = right
@@ -53,7 +53,7 @@ def crop_openface(img,bbox,size):
         top = bottom
         bottom = temp
     crop = img[int(top):int(bottom), int(left):int(right)]
-    print(crop.shape)
+    #print(crop.shape)
     crop = cv2.resize(crop,size)
     #crop = (crop > 0).astype(np.uint8) * 255
     return crop
@@ -223,12 +223,12 @@ def get_rect_OpenFace(of_landmarks, bbox):
         closest_bbox = None
      #   print(rects)
     #    print(of_landmarks.index)
-        print(list(of_landmarks[" y_0"]))
+        #print(list(of_landmarks[" y_0"]))
         for i in of_landmarks.index:
             coords = np.array(((int(round(of_landmarks.iloc[i][2]))), (int(round(of_landmarks.iloc[i][70])))))
             ##dlib_bbox = np.array((x,y))
             #print(celebA_bbox - dlib_bbox)
-            print(coords)
+            #print(coords)
             if np.linalg.norm(celebA_bbox - coords) < dist:
                 closest_bbox = i
                 dist = np.linalg.norm(celebA_bbox - coords)
@@ -1222,7 +1222,7 @@ def process_images(df,features,dir,out,id):
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/home/guillermodelvalle/test'
+path = '/home/guillermodelvalle/img_celeba'
 #OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
