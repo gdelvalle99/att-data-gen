@@ -42,7 +42,7 @@ def crop_openface(img,bbox,size):
         bottom = img.shape[0]-1
     #right = bbox[17]
     #bottom = bbox[9]
-    #print(top,left,right,bottom)
+    print(top,left,right,bottom)
     if(left > right):
         temp = left
         left = right
