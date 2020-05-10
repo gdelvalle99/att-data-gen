@@ -27,19 +27,18 @@ def crop_openface(img,bbox,size):
     dimensions = img.shape
 
     top = (bbox[24][1] - (bbox[8][1]*1.1))
-    if(top < 0):
+    if(top < 0 or top >img.shape[0]):
         top = 0
 
     left = bbox[0][0] - (bbox[36][0]-bbox[0][0])
-    if(left < 0):
+    if(left < 0 or left > img.shape[1]):
         left = 0
     right = bbox[16][0] + (bbox[16][0]-bbox[45][0])
-    if(right > img.shape[1]):
+    if(right > img.shape[1] or right < 0):
         right = img.shape[1]-1
-    if(right < 0):
-        right = 0
+
     bottom = bbox[8][1] - (bbox[33][1] - bbox[8][1])
-    if(bottom > img.shape[0]):
+    if(bottom > img.shape[0] || bottom < 0):
         bottom = img.shape[0]-1
     #right = bbox[17]
     #bottom = bbox[9]
@@ -48,6 +47,10 @@ def crop_openface(img,bbox,size):
         temp = left
         left = right
         right = temp
+    if(top > bottom):
+        temp = top
+        top = bottom
+        bottom = temp
     crop = img[int(top):int(bottom), int(left):int(right)]
     #print(crop.shape)
     crop = cv2.resize(crop,size)
