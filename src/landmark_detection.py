@@ -225,7 +225,7 @@ def get_rect_OpenFace(of_landmarks, bbox):
     #    print(of_landmarks.index)
         print(of_landmarks)
         for i in of_landmarks.index:
-            coords = np.array(((int(round(of_landmarks.iloc[i][0]))), (int(round(of_landmarks.iloc[i][68])))))
+            coords = np.array(((int(round(of_landmarks.iloc[i][2]))), (int(round(of_landmarks.iloc[i][69])))))
             ##dlib_bbox = np.array((x,y))
             #print(celebA_bbox - dlib_bbox)
             print(coords)
