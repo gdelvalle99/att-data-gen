@@ -1198,6 +1198,7 @@ def generate_masks(img,name,index,df):
                 point = np.expand_dims(point,axis=0)
                 cv2.fillPoly(img=img_bin,pts=point,color=255,lineType=cv2.LINE_AA)
         img_bin = crop_openface(img_bin,df.iloc[index],cropsize)
+        img_bin = (img_bin > 0).astype(np.uint8) * 255
         file = binarize(img_bin)
         np.save("/home/guillermodelvalle/OpenFace_masks/npy/"+name+"_"+fn,file)
         yield img_bin, fn
