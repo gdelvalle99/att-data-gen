@@ -11,7 +11,7 @@ import subprocess
 import shutil
 
 start = time.time()
-
+print(start)
 found = 0
 not_found = 0
 detector = dlib.get_frontal_face_detector()
