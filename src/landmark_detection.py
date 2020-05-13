@@ -29,10 +29,10 @@ def crop_openface(img,bbox,size,name):
     top = (bbox[24][1] - (bbox[8][1]*1.1))
     if(top < 0 or top >img.shape[0]):
         top = 0
-    print(top)
+    #print(top)
     left = bbox[0][0] - (bbox[36][0]-bbox[0][0])
     #print(bbox[0][0])
-    print(bbox[0],bbox[16])
+    #print(bbox[0],bbox[16])
     if(left < 0 or left > img.shape[1]):
         left = 0
     right = bbox[16][0] + (bbox[16][0]-bbox[45][0])
@@ -167,7 +167,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
         #print(file_name)
         global missed_count
         missed_count += 1
-        print(filename)
+        #print(filename)
         shutil.copy(filename,"/home/guillermodelvalle/OpenFace_not_detected")
         return df
     else:
@@ -175,7 +175,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
         filename = file_name+'/' + name
         #print(filename)
         #print(file_name)
-        print(filename)
+        #print(filename)
         #shutil.copy(filename,file_name+"/OpenFace_detected")
         img = cv2.imread(filename)
         list = []
@@ -185,7 +185,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
            # print(old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
             value = (old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
             list.append(value)
-        
+
         img = crop_openface(img,list,cropsize,name)
         if img is None:
             return df
@@ -1202,7 +1202,7 @@ def binarize(arr):
 def generate_masks(img,name,index,df):
     for fn in fn_dict.keys():
         points = fn_dict[fn](index,df)
-        print(img.shape)
+        #print(img.shape)
         img_bin = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         img_bin.fill(0)
         if points is not None:
