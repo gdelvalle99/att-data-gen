@@ -317,7 +317,9 @@ def process_directory_openface(dir, csv_file, dict):
         os.mkdir("/home/guillermodelvalle/OpenFace_detected")
     if not os.path.exists("/home/guillermodelvalle/OpenFace_not_detected"):
         os.mkdir("/home/guillermodelvalle/OpenFace_not_detected")
-    OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir ../OpenFace_landmarks/'
+    if not os.path.exists("/home/guillermodelvalle/OpenFace_landmarks"):
+        os.mkdir("/home/guillermodelvalle/OpenFace_landmarks")
+    OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir /home/guillermodelvalle/OpenFace_landmarks'
     subprocess.call(OpenFaceBashCommand.split())
     list = []
     global detector
@@ -329,7 +331,7 @@ def process_directory_openface(dir, csv_file, dict):
     df = pd.DataFrame(columns=[col for col in list])
     entries = natsorted(os.listdir(dir))
     for entry in entries:
-        df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
+        df = extract_landmarks_openface(entry,'/home/guillermodelvalle/OpenFace_landmarks'',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
     return df
 
 
