@@ -191,7 +191,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
         return df
 
 
-def get_rect_OpenCV(rects, bbox):
+def get_rect(rects, bbox):
     #print(len(rects))
     if(len(rects) == 1):
         return rects[0]
