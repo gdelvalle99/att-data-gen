@@ -21,7 +21,7 @@ predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 #imported from face_utils
 cropsize = (178,218)
 
-def crop_openface(img,bbox,size):
+def crop_openface(img,bbox,size,name):
     #bbox[24]
     #print(img)
     dimensions = img.shape
@@ -55,6 +55,10 @@ def crop_openface(img,bbox,size):
         bottom = temp
     crop = img[int(top):int(bottom), int(left):int(right)]
     #print(crop.shape)
+    if(crop.shape[0] is 0 or crop.shape[1] is 0):
+        cv2.imwrite("/home/guillermodelvalle/OpenFace_not_detected/"+name,img)
+        return
+
     crop = cv2.resize(crop,size)
     #crop = (crop > 0).astype(np.uint8) * 255
     return crop
@@ -187,7 +191,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
         df.loc[df_length] = list
         df.index = df.index[:-1].tolist() + [name]
         #print(filename)
-        img = crop_openface(img,list,cropsize)
+        img = crop_openface(img,list,cropsize,name)
         #print(file_name+'OpenFace_detected/'+name)
         cv2.imwrite(out+"/"+name,img)
         #print(out+"/"+name)
@@ -1201,7 +1205,7 @@ def generate_masks(img,name,index,df):
             for point in points:
                 point = np.expand_dims(point,axis=0)
                 cv2.fillPoly(img=img_bin,pts=point,color=255,lineType=cv2.LINE_AA)
-        img_bin = crop_openface(img_bin,df.iloc[index],cropsize)
+        img_bin = crop_openface(img_bin,df.iloc[index],cropsize,name)
         img_bin = (img_bin > 0).astype(np.uint8) * 255
         file = binarize(img_bin)
         np.save("/home/guillermodelvalle/OpenFace_masks/npy/"+name+"_"+fn,file)
