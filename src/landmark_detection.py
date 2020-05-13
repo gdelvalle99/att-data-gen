@@ -162,6 +162,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
         #print(file_name)
         global missed_count
         missed_count += 1
+        print(filename)
         shutil.copy(filename,"/home/guillermodelvalle/OpenFace_not_detected")
         return df
     else:
