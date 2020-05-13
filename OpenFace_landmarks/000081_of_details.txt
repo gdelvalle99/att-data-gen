@@ -1,5 +1,5 @@
-Input:/home/guillermodelvalle/img_celeba/000081.jpg
-Input full path:/home/guillermodelvalle/img_celeba/000081.jpg
+Input:/home/guillermodelvalle/test/000081.jpg
+Input full path:/home/guillermodelvalle/test/000081.jpg
 Camera parameters:304.688,304.688,150,180
 Output csv:000081.csv
 Gaze: 0

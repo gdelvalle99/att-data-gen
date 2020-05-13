@@ -1,0 +1,10 @@
+Input:/home/guillermodelvalle/test/039602.jpg
+Input full path:/home/guillermodelvalle/test/039602.jpg
+Camera parameters:310.286,310.286,150.5,185
+Output csv:039602.csv
+Gaze: 0
+AUs: 0
+Landmarks 2D: 1
+Landmarks 3D: 0
+Pose: 0
+Shape parameters: 0
