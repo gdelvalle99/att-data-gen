@@ -292,6 +292,7 @@ def process_directory(dir, csv_file, dict):
                     top = 0
                 #crop_img = img[top:bottom,left:right]
                 #crop_img = cv2.resize(crop_img,(178,218))
+                print(shape)
                 crop_img = crop_openface(img,shape,cropsize,entry)
                 if(crop_img is None):
                     cv2.imwrite(os.path.join('/home/guillermodelvalle/not_detected/'+entry), img)
