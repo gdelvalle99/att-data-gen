@@ -1,3 +1,0 @@
-Input:/home/guillermodelvalle/img_celeba/003035.jpg
-Input full path:/home/guillermodelvalle/img_celeba/003035.jpg
-Camera parameters:461.979,461.979,310,211
