@@ -1202,7 +1202,7 @@ def binarize(arr):
 def generate_masks(img,name,index,df):
     for fn in fn_dict.keys():
         points = fn_dict[fn](index,df)
-        #print(img.shape)
+        print(img.shape, name)
         img_bin = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         img_bin.fill(0)
         if points is not None:
