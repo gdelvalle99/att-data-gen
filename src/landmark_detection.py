@@ -292,13 +292,15 @@ def process_directory(dir, csv_file, dict):
                     top = 0
                 #crop_img = img[top:bottom,left:right]
                 #crop_img = cv2.resize(crop_img,(178,218))
+
+
+                cv2.imwrite(os.path.join('/home/guillermodelvalle/detected_opencv/'+entry), crop_img)
+                shape = predictor(img_gray, rect)
+                shape = shape_to_np(shape)
                 crop_img = crop_openface(img,shape,cropsize,entry)
                 if(crop_img is None):
                     cv2.imwrite(os.path.join('/home/guillermodelvalle/not_detected/'+entry), img)
                     return df
-                cv2.imwrite(os.path.join('/home/guillermodelvalle/detected_opencv/'+entry), crop_img)
-                shape = predictor(img_gray, rect)
-                shape = shape_to_np(shape)
                 (x,y,w,h) = rect_to_bb(rect)
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0))
 
