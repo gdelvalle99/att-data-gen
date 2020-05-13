@@ -1238,6 +1238,7 @@ process_images(df,features,path,'/home/guillermodelvalle/OpenFace_detected/','1'
 #print("Percentage of found:", found/(not_found+found))
 opencvdf = process_directory('/home/guillermodelvalle/OpenFace_not_detected', csv_file, dict)
 opencvfeatures = create_new_csv(opencvdf,'list_attr_celeba.csv')
+print(opencvdf)
 process_images(opencvdf,opencvfeatures,path,'/home/guillermodelvalle/detected_opencv','2')
 end = time.time()
 print("Time taken:", end - start)
