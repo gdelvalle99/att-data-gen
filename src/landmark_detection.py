@@ -191,7 +191,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
         return df
 
 
-def get_rect_OpenCV(rects, bbox):
+def get_rect(rects, bbox):
     #print(len(rects))
     if(len(rects) == 1):
         return rects[0]
@@ -1223,7 +1223,7 @@ def process_images(df,features,dir,out,id):
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/home/guillermodelvalle/img_celeba'
+path = '/home/guillermodelvalle/test'
 #OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
