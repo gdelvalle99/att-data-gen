@@ -1221,6 +1221,7 @@ def process_images(df,features,dir,out,id):
     file_df = pd.DataFrame(columns=labels,index=rows)
     for i in range(len(df)):
         name = df.index[i]
+        print(dir+'/'+name)
         img = cv2.imread(str(dir+'/'+name))
         file_df.at[name,"image_id"] = name
         for mask,fn in generate_masks(img,name[:-4],i,df):
