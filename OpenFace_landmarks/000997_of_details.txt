@@ -1,3 +1,0 @@
-Input:/home/guillermodelvalle/test/000997.jpg
-Input full path:/home/guillermodelvalle/test/000997.jpg
-Camera parameters:430.859,430.859,181.5,277.5

@@ -292,7 +292,7 @@ def process_directory(dir, csv_file, dict):
                     top = 0
                 crop_img = img[top:bottom,left:right]
                 crop_img = cv2.resize(crop_img,(178,218))
-                cv2.imwrite(os.path.join('detected_opencv/'+entry), crop_img)
+                cv2.imwrite(os.path.join('/home/guillermodelvalle/detected_opencv/'+entry), crop_img)
                 shape = predictor(img_gray, rect)
                 shape = shape_to_np(shape)
                 (x,y,w,h) = rect_to_bb(rect)
@@ -317,7 +317,9 @@ def process_directory_openface(dir, csv_file, dict):
         os.mkdir("/home/guillermodelvalle/OpenFace_detected")
     if not os.path.exists("/home/guillermodelvalle/OpenFace_not_detected"):
         os.mkdir("/home/guillermodelvalle/OpenFace_not_detected")
-    OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir ../OpenFace_landmarks/'
+    if not os.path.exists("/home/guillermodelvalle/OpenFace_landmarks"):
+        os.mkdir("/home/guillermodelvalle/OpenFace_landmarks")
+    OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir /home/guillermodelvalle/OpenFace_landmarks'
     subprocess.call(OpenFaceBashCommand.split())
     list = []
     global detector
@@ -329,7 +331,7 @@ def process_directory_openface(dir, csv_file, dict):
     df = pd.DataFrame(columns=[col for col in list])
     entries = natsorted(os.listdir(dir))
     for entry in entries:
-        df = extract_landmarks_openface(entry,'../OpenFace_landmarks/',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
+        df = extract_landmarks_openface(entry,'/home/guillermodelvalle/OpenFace_landmarks'',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
     return df
 
 
@@ -1203,7 +1205,7 @@ def binarize(arr):
 def generate_masks(img,name,index,df):
     for fn in fn_dict.keys():
         points = fn_dict[fn](index,df)
-        print(img.shape, name)
+        #print(img.shape, name)
         img_bin = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         img_bin.fill(0)
         if points is not None:
@@ -1222,6 +1224,7 @@ def process_images(df,features,dir,out,id):
     file_df = pd.DataFrame(columns=labels,index=rows)
     for i in range(len(df)):
         name = df.index[i]
+        #print(name)
         img = cv2.imread(str(dir+'/'+name))
         file_df.at[name,"image_id"] = name
         for mask,fn in generate_masks(img,name[:-4],i,df):
@@ -1236,7 +1239,7 @@ def process_images(df,features,dir,out,id):
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/home/guillermodelvalle/test'
+path = '/home/guillermodelvalle/img_celeba'
 #OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
