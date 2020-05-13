@@ -307,7 +307,7 @@ def process_directory_openface(dir, csv_file, dict):
     if not os.path.exists("/home/guillermodelvalle/OpenFace_not_detected"):
         os.mkdir("/home/guillermodelvalle/OpenFace_not_detected")
     OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir ../OpenFace_landmarks/'
-    #subprocess.call(OpenFaceBashCommand.split())
+    subprocess.call(OpenFaceBashCommand.split())
     list = []
     global detector
     global predictor
@@ -1192,6 +1192,7 @@ def binarize(arr):
 def generate_masks(img,name,index,df):
     for fn in fn_dict.keys():
         points = fn_dict[fn](index,df)
+        print(img.shape)
         img_bin = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         img_bin.fill(0)
         if points is not None:
