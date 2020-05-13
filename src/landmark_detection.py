@@ -309,6 +309,7 @@ def process_directory(dir, csv_file, dict):
                 df.loc[df_length]= list
                 df.index = df.index[:-1].tolist() + [entry]
                 #df = extract_landmarks(entry,shape, df)
+                crop_openface(img,list,cropsize,entry)
     return df
 
 def process_directory_openface(dir, csv_file, dict):
@@ -1221,7 +1222,6 @@ def process_images(df,features,dir,out,id):
     file_df = pd.DataFrame(columns=labels,index=rows)
     for i in range(len(df)):
         name = df.index[i]
-        print(dir+'/'+name)
         img = cv2.imread(str(dir+'/'+name))
         file_df.at[name,"image_id"] = name
         for mask,fn in generate_masks(img,name[:-4],i,df):
