@@ -57,7 +57,7 @@ def crop_openface(img,bbox,size,name):
     #print(crop.shape)
     if(crop.shape[0] is 0 or crop.shape[1] is 0):
         cv2.imwrite("/home/guillermodelvalle/OpenFace_not_detected/"+name,img)
-        return
+        return None
 
     crop = cv2.resize(crop,size)
     #crop = (crop > 0).astype(np.uint8) * 255
@@ -185,13 +185,17 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
            # print(old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
             value = (old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
             list.append(value)
+        
+        img = crop_openface(img,list,cropsize,name)
+        if img is None:
+            return df
 
         df_length = len(df)
        # print(list)
         df.loc[df_length] = list
         df.index = df.index[:-1].tolist() + [name]
         #print(filename)
-        img = crop_openface(img,list,cropsize,name)
+
         #print(file_name+'OpenFace_detected/'+name)
         cv2.imwrite(out+"/"+name,img)
         #print(out+"/"+name)
