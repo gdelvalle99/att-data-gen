@@ -331,7 +331,7 @@ def process_directory_openface(dir, csv_file, dict):
     df = pd.DataFrame(columns=[col for col in list])
     entries = natsorted(os.listdir(dir))
     for entry in entries:
-        df = extract_landmarks_openface(entry,'/home/guillermodelvalle/OpenFace_landmarks'',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
+        df = extract_landmarks_openface(entry,'/home/guillermodelvalle/OpenFace_landmarks',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
     return df
 
 
