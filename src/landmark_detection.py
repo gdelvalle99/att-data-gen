@@ -301,6 +301,7 @@ def process_directory(dir, csv_file, dict):
                 if(crop_img is None):
                     cv2.imwrite(os.path.join('/home/guillermodelvalle/not_detected/'+entry), img)
                     return df
+                
                 (x,y,w,h) = rect_to_bb(rect)
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0))
 
