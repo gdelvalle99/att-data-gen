@@ -294,6 +294,9 @@ def process_directory(dir, csv_file, dict):
                 #crop_img = cv2.resize(crop_img,(178,218))
 
 
+            
+
+            if shape is not None:
                 cv2.imwrite(os.path.join('/home/guillermodelvalle/detected_opencv/'+entry), crop_img)
                 shape = predictor(img_gray, rect)
                 shape = shape_to_np(shape)
@@ -301,11 +304,9 @@ def process_directory(dir, csv_file, dict):
                 if(crop_img is None):
                     cv2.imwrite(os.path.join('/home/guillermodelvalle/not_detected/'+entry), img)
                     return df
-                
+
                 (x,y,w,h) = rect_to_bb(rect)
                 cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0))
-
-            if shape is not None:
                 list = []
                 for i in shape:
                     list.append(i)
