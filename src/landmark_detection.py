@@ -158,6 +158,39 @@ def extract_landmarks_opencv(name,shape, df):
 
 global missed_count
 missed_count = 0
+
+def extract_landmarks_done(name,dir,df,file_name,dict,out):
+    entry = dir + name[:-4] + ".csv"
+    #print(entry)
+
+    #print(file_name+name)
+    filename = file_name+'/' + name
+    #print(filename)
+        #print(file_name)
+        #print(filename)
+    #shutil.copy(filename,file_name+"/OpenFace_detected")
+    img = cv2.imread(filename)
+    list = []
+    old_df = pd.read_csv(entry)
+    k = get_rect_OpenFace(old_df,dict)
+    for i in range(68):
+       # print(old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
+        value = (old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
+        list.append(value)
+
+    df_length = len(df)
+       # print(list)
+    df.loc[df_length] = list
+    df.index = df.index[:-1].tolist() + [name]
+    #print(filename)
+
+    #print(file_name+'OpenFace_detected/'+name)
+    cv2.imwrite(out+"/"+name,img)
+        #print(out+"/"+name)
+    return df
+
+
+
 def extract_landmarks_openface(name,dir,df,file_name,dict,out):
     entry = dir + name[:-4] + ".csv"
     #print(entry)
@@ -335,13 +368,13 @@ def process_directory_openface(dir, csv_file, dict):
     for i in range(68): #this section creates the columns for the csv file (hardcoded to work with 68 predictor)
         list.append(("x_"+str(i),"y_"+str(i)))
     df = pd.DataFrame(columns=[col for col in list])
-    entries = natsorted(os.listdir(dir))
+    entries = natsorted(os.listdir('/home/guillermodelvalle/OpenFace_detected'))
     j = 0
     for entry in entries:
         j+=1
         if(j % 5000 is 0):
             print(entry)
-        df = extract_landmarks_openface(entry,'/home/guillermodelvalle/OpenFace_landmarks/',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
+        df = extract_landmarks_done(entry,'/home/guillermodelvalle/OpenFace_landmarks/',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
     return df
 
 
