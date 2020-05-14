@@ -294,7 +294,7 @@ def process_directory(dir, csv_file, dict):
                 #crop_img = cv2.resize(crop_img,(178,218))
 
 
-            
+
 
             if shape is not None:
                 cv2.imwrite(os.path.join('/home/guillermodelvalle/detected_opencv/'+entry), crop_img)
@@ -303,17 +303,17 @@ def process_directory(dir, csv_file, dict):
                 crop_img = crop_openface(img,shape,cropsize,entry)
                 if(crop_img is None):
                     cv2.imwrite(os.path.join('/home/guillermodelvalle/not_detected/'+entry), img)
-                    return df
 
-                (x,y,w,h) = rect_to_bb(rect)
-                cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0))
-                list = []
-                for i in shape:
-                    list.append(i)
+                else:
+                    (x,y,w,h) = rect_to_bb(rect)
+                    cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0))
+                    list = []
+                    for i in shape:
+                        list.append(i)
                 #appends x and y coordinates as a single tuple
-                df_length = len(df)
-                df.loc[df_length]= list
-                df.index = df.index[:-1].tolist() + [entry]
+                    df_length = len(df)
+                    df.loc[df_length]= list
+                    df.index = df.index[:-1].tolist() + [entry]
                 #df = extract_landmarks(entry,shape, df)
     return df
 
@@ -1244,7 +1244,7 @@ def process_images(df,features,dir,out,id):
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/home/guillermodelvalle/test'
+path = '/home/guillermodelvalle/img_celeba'
 #OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
