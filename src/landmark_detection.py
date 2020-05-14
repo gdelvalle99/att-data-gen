@@ -169,7 +169,6 @@ def extract_landmarks_done(name,dir,df,file_name,dict,out):
         #print(file_name)
         #print(filename)
     #shutil.copy(filename,file_name+"/OpenFace_detected")
-    img = cv2.imread(filename)
     list = []
     old_df = pd.read_csv(entry)
     k = get_rect_OpenFace(old_df,dict)
@@ -185,7 +184,6 @@ def extract_landmarks_done(name,dir,df,file_name,dict,out):
     #print(filename)
 
     #print(file_name+'OpenFace_detected/'+name)
-    cv2.imwrite(out+"/"+name,img)
         #print(out+"/"+name)
     return df
 
