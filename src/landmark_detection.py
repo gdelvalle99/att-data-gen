@@ -160,6 +160,7 @@ global missed_count
 missed_count = 0
 def extract_landmarks_openface(name,dir,df,file_name,dict,out):
     entry = dir + name[:-4] + ".csv"
+    #print(entry)
     if(os.path.isfile(entry) is False):
         if(os.path.isdir(file_name+name) is True):
             return df
@@ -325,7 +326,7 @@ def process_directory_openface(dir, csv_file, dict):
     if not os.path.exists("/home/guillermodelvalle/OpenFace_landmarks"):
         os.mkdir("/home/guillermodelvalle/OpenFace_landmarks")
     OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir /home/guillermodelvalle/OpenFace_landmarks'
-    subprocess.call(OpenFaceBashCommand.split())
+   # subprocess.call(OpenFaceBashCommand.split())
     list = []
     global detector
     global predictor
@@ -335,8 +336,12 @@ def process_directory_openface(dir, csv_file, dict):
         list.append(("x_"+str(i),"y_"+str(i)))
     df = pd.DataFrame(columns=[col for col in list])
     entries = natsorted(os.listdir(dir))
+    j = 0
     for entry in entries:
-        df = extract_landmarks_openface(entry,'/home/guillermodelvalle/OpenFace_landmarks',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
+        j+=1
+        if(j % 5000 is 0):
+            print(entry)
+        df = extract_landmarks_openface(entry,'/home/guillermodelvalle/OpenFace_landmarks/',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
     return df
 
 
@@ -1244,7 +1249,7 @@ def process_images(df,features,dir,out,id):
 dict = use_bbox('list_bbox_celeba.csv')
 #print(dict['000001.jpg'])
 csv_file = 'test.csv'
-path = '/home/guillermodelvalle/test'
+path = '/home/guillermodelvalle/img_celeba'
 #OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
