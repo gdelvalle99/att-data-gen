@@ -372,7 +372,28 @@ def process_directory_openface(dir, csv_file, dict):
         if(j % 1000 == 0):
             print(df)
         j+=1
-        df = extract_landmarks_done(entry,'/home/guillermodelvalle/OpenFace_landmarks/',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
+        name = dir + entry[:-4] + ".csv"
+        #print(entry)
+
+        #print(file_name+name)
+        filename = file_name+'/' + name
+        #print(filename)
+            #print(file_name)
+            #print(filename)
+        #shutil.copy(filename,file_name+"/OpenFace_detected")
+        list = []
+        old_df = pd.read_csv(name)
+        k = get_rect_OpenFace(old_df,dict[entry])
+        for i in range(68):
+           # print(old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
+            value = (old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
+            list.append(value)
+
+        df_length = len(df)
+           # print(list)
+        df.loc[df_length] = list
+        df.index = df.index[:-1].tolist() + [name]
+>>>>>>> bbfe9e7565d0037611e40733c6c8b95d71ae9325
     return df
 
 
