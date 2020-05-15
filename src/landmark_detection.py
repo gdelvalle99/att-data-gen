@@ -369,9 +369,9 @@ def process_directory_openface(dir, csv_file, dict):
     entries = natsorted(os.listdir('/home/guillermodelvalle/OpenFace_detected'))
     j = 0
     for entry in entries:
+        if(j % 1000 == 0):
+            print(df)
         j+=1
-        if(j % 5000 is 0):
-            print(entry)
         df = extract_landmarks_done(entry,'/home/guillermodelvalle/OpenFace_landmarks/',df,dir,dict[entry],"/home/guillermodelvalle/OpenFace_detected")
     return df
 
