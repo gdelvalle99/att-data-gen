@@ -308,7 +308,6 @@ def process_directory(dir, csv_file, dict):
                 cv2.imwrite(os.path.join('/home/guillermodelvalle/not_detected/'+entry), img)
             #if a face is detected then we go through the cropping process
             else:
-
                 found += 1
                 #this part identifies the features using dlib's face predictor
                 rect = get_rect(rects, dict[entry])
@@ -329,14 +328,15 @@ def process_directory(dir, csv_file, dict):
 
 
             if shape is not None:
-                cv2.imwrite(os.path.join('/home/guillermodelvalle/detected_opencv/'+entry), crop_img)
                 shape = predictor(img_gray, rect)
                 shape = shape_to_np(shape)
                 crop_img = crop_openface(img,shape,cropsize,entry)
                 if(crop_img is None):
                     cv2.imwrite(os.path.join('/home/guillermodelvalle/not_detected/'+entry), img)
-
+                    #print("here")
                 else:
+                    #print("here")
+                    cv2.imwrite(os.path.join('/home/guillermodelvalle/detected_opencv/'+entry), crop_img)
                     (x,y,w,h) = rect_to_bb(rect)
                     cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0))
                     list = []
@@ -347,6 +347,9 @@ def process_directory(dir, csv_file, dict):
                     df.loc[df_length]= list
                     df.index = df.index[:-1].tolist() + [entry]
                 #df = extract_landmarks(entry,shape, df)
+            else:
+                cv2.imwrite(os.path.join('/home/guillermodelvalle/not_detected/'+entry), img)
+
     return df
 
 def process_directory_openface(dir, csv_file, dict):
@@ -393,7 +396,7 @@ def process_directory_openface(dir, csv_file, dict):
            # print(list)
         df.loc[df_length] = list
         df.index = df.index[:-1].tolist() + [name]
->>>>>>> bbfe9e7565d0037611e40733c6c8b95d71ae9325
+
     return df
 
 
@@ -1311,13 +1314,14 @@ df.to_csv("landmarks.csv")
 #print(df.iloc[0,0])
 features = create_new_csv(df,'list_attr_celeba.csv')
 #print(features)
-print(df)
-process_images(df,features,path,'/home/guillermodelvalle/OpenFace_detected/','1')
+#print(df)
+process_images(df,features,path,'/home/guillermodelvalle/OpenFace_detected/','OpenFace_')
 #print("Percentage of found:", found/(not_found+found))
-opencvdf = process_directory('/home/guillermodelvalle/OpenFace_not_detected', csv_file, dict)
+opencvdf = process_directory('images', csv_file, dict)
+opencvdf.to_csv("cv_landmarks.csv")
 opencvfeatures = create_new_csv(opencvdf,'list_attr_celeba.csv')
 print(opencvdf)
-process_images(opencvdf,opencvfeatures,path,'/home/guillermodelvalle/detected_opencv','2')
+process_images(opencvdf,opencvfeatures,'images','OpenFace_detected','OpenCV_')
 end = time.time()
 print("Time taken:", end - start)
 print(missed_count)
