@@ -369,9 +369,9 @@ def process_directory_openface(dir, csv_file, dict):
     entries = natsorted(os.listdir('/home/guillermodelvalle/OpenFace_detected'))
     j = 0
     for entry in entries:
+        if(j % 1000 == 0):
+            print(df)
         j+=1
-        if(j % 5000 is 0):
-            print(entry)
         name = dir + entry[:-4] + ".csv"
         #print(entry)
 
@@ -393,6 +393,7 @@ def process_directory_openface(dir, csv_file, dict):
            # print(list)
         df.loc[df_length] = list
         df.index = df.index[:-1].tolist() + [name]
+>>>>>>> bbfe9e7565d0037611e40733c6c8b95d71ae9325
     return df
 
 
