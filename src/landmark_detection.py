@@ -1308,8 +1308,8 @@ path = '/home/guillermodelvalle/img_celeba'
 #OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
 #print(OpenFaceBashCommand)
 #process_directory(path, csv_file, dict)
-df = process_directory_openface(path, csv_file, dict)
-df.to_csv("landmarks.csv")
+#df = process_directory_openface(path, csv_file, dict)
+df = pd.read_csv("landmarks.csv")
 #print(df)
 #print(df.iloc[0,0])
 features = create_new_csv(df,'list_attr_celeba.csv')
