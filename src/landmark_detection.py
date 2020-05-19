@@ -19,7 +19,7 @@ detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 #imported from face_utils
-cropsize = (178,218)
+cropsize = (76,96)
 
 def crop_openface(img,bbox,size,name):
     #bbox[24]
@@ -375,11 +375,11 @@ def process_directory_openface(dir, csv_file, dict):
         if(j % 1000 == 0):
             print(df)
         j+=1
-        name = dir + entry[:-4] + ".csv"
+        name = '/home/guillermodelvalle/OpenFace_landmarks/'+ entry[:-4] + ".csv"
         #print(entry)
 
         #print(file_name+name)
-        filename = file_name+'/' + name
+    
         #print(filename)
             #print(file_name)
             #print(filename)
@@ -395,7 +395,7 @@ def process_directory_openface(dir, csv_file, dict):
         df_length = len(df)
            # print(list)
         df.loc[df_length] = list
-        df.index = df.index[:-1].tolist() + [name]
+        df.index = df.index[:-1].tolist() + [entry]
 
     return df
 
