@@ -134,13 +134,6 @@ def use_bbox(dir):
         dict[df.at[x,"image_id"]] = value
     return dict
 
-def crop_images(dir, rect):
-    entries = natsorted(os.listdir(dir))
-    for entry in entries:
-        img = cv2.imread(dir+"/"+entry)
-        crop_img = img[dict[entry][1]:dict[entry][1]+dict[entry][3],dict[entry][0]:dict[entry][0]+dict[entry][2]]
-        crop_img = cv2.resize(crop_img,(178,218))
-    return
 
 #finished
 def extract_landmarks_opencv(name,shape, df):
@@ -159,56 +152,20 @@ def extract_landmarks_opencv(name,shape, df):
 global missed_count
 missed_count = 0
 
-def extract_landmarks_done(name,dir,df,file_name,dict,out):
-    entry = dir + name[:-4] + ".csv"
-    #print(entry)
-
-    #print(file_name+name)
-    filename = file_name+'/' + name
-    #print(filename)
-        #print(file_name)
-        #print(filename)
-    #shutil.copy(filename,file_name+"/OpenFace_detected")
-    list = []
-    old_df = pd.read_csv(entry)
-    k = get_rect_OpenFace(old_df,dict)
-    for i in range(68):
-       # print(old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
-        value = (old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
-        list.append(value)
-
-    df_length = len(df)
-       # print(list)
-    df.loc[df_length] = list
-    df.index = df.index[:-1].tolist() + [name]
-    #print(filename)
-
-    #print(file_name+'OpenFace_detected/'+name)
-        #print(out+"/"+name)
-    return df
-
 
 
 def extract_landmarks_openface(name,dir,df,file_name,dict,out):
     entry = dir + name[:-4] + ".csv"
-    #print(entry)
     if(os.path.isfile(entry) is False):
         if(os.path.isdir(file_name+name) is True):
             return df
         filename = file_name+'/'+name
-        #print(file_name)
         global missed_count
         missed_count += 1
-        #print(filename)
         shutil.copy(filename,"/home/guillermodelvalle/OpenFace_not_detected")
         return df
     else:
-        #print(file_name+name)
         filename = file_name+'/' + name
-        #print(filename)
-        #print(file_name)
-        #print(filename)
-        #shutil.copy(filename,file_name+"/OpenFace_detected")
         img = cv2.imread(filename)
         list = []
         old_df = pd.read_csv(entry)
@@ -279,7 +236,7 @@ def get_rect_OpenFace(of_landmarks, bbox):
         return closest_bbox
 
 #works on entire directories
-def process_directory(dir, csv_file, dict):
+def process_directory_opencv(dir, csv_file, dict):
     if not os.path.exists("/home/guillermodelvalle/detected_opencv"):
         os.mkdir("/home/guillermodelvalle/detected_opencv")
     if not os.path.exists("/home/guillermodelvalle/not_detected"):
@@ -360,7 +317,7 @@ def process_directory_openface(dir, csv_file, dict):
     if not os.path.exists("/home/guillermodelvalle/OpenFace_landmarks"):
         os.mkdir("/home/guillermodelvalle/OpenFace_landmarks")
     OpenFaceBashCommand = '/home/guillermodelvalle/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+dir+' -out_dir /home/guillermodelvalle/OpenFace_landmarks'
-   # subprocess.call(OpenFaceBashCommand.split())
+    subprocess.call(OpenFaceBashCommand.split())
     list = []
     global detector
     global predictor
@@ -372,30 +329,7 @@ def process_directory_openface(dir, csv_file, dict):
     entries = natsorted(os.listdir('/home/guillermodelvalle/OpenFace_detected'))
     j = 0
     for entry in entries:
-        if(j % 1000 == 0):
-            print(df)
-        j+=1
-        name = '/home/guillermodelvalle/OpenFace_landmarks/'+ entry[:-4] + ".csv"
-        #print(entry)
-
-        #print(file_name+name)
-    
-        #print(filename)
-            #print(file_name)
-            #print(filename)
-        #shutil.copy(filename,file_name+"/OpenFace_detected")
-        list = []
-        old_df = pd.read_csv(name)
-        k = get_rect_OpenFace(old_df,dict[entry])
-        for i in range(68):
-           # print(old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
-            value = (old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
-            list.append(value)
-
-        df_length = len(df)
-           # print(list)
-        df.loc[df_length] = list
-        df.index = df.index[:-1].tolist() + [entry]
+        df = extract_landmarks_openface(entry,'/home/guillermodelvalle/OpenFace_landmarks/',df,dir,dict,'/home/guillermodelvalle/OpenFace_detected')
 
     return df
 
@@ -1302,21 +1236,12 @@ def process_images(df,features,dir,out,id):
 
 
 dict = use_bbox('list_bbox_celeba.csv')
-#print(dict['000001.jpg'])
 csv_file = 'test.csv'
 path = '/home/guillermodelvalle/img_celeba'
-#OpenFaceBashCommand = '/OpenFace/build/bin/FaceLandmarkImg -2Dfp -wild -fdir '+path+' -out_dir ../OpenFace_landmarks/'
-#print(OpenFaceBashCommand)
-#process_directory(path, csv_file, dict)
 #df = process_directory_openface(path, csv_file, dict)
 df = pd.read_csv("landmarks.csv")
-#print(df)
-#print(df.iloc[0,0])
 features = create_new_csv(df,'list_attr_celeba.csv')
-#print(features)
-#print(df)
 process_images(df,features,path,'/home/guillermodelvalle/OpenFace_detected/','OpenFace_')
-#print("Percentage of found:", found/(not_found+found))
 opencvdf = process_directory('images', csv_file, dict)
 opencvdf.to_csv("cv_landmarks.csv")
 opencvfeatures = create_new_csv(opencvdf,'list_attr_celeba.csv')
