@@ -21,7 +21,7 @@ predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 #imported from face_utils
 cropsize = (76,96)
 
-def crop_openface(img,bbox,size,name):
+def crop_image(img,bbox,size,name):
     #bbox[24]
     #print(img)
     dimensions = img.shape
@@ -175,7 +175,7 @@ def extract_landmarks_openface(name,dir,df,file_name,dict,out):
             value = (old_df.at[k," x_"+str(i)], old_df.at[k," y_"+str(i)])
             list.append(value)
 
-        img = crop_openface(img,list,cropsize,name)
+        img = crop_image(img,list,cropsize,name)
         if img is None:
             return df
 
@@ -236,7 +236,7 @@ def get_rect_OpenFace(of_landmarks, bbox):
         return closest_bbox
 
 #works on entire directories
-def process_directory_opencv(dir, csv_file, dict):
+def process_directory_opencv(dir, dict):
     if not os.path.exists("/home/guillermodelvalle/detected_opencv"):
         os.mkdir("/home/guillermodelvalle/detected_opencv")
     if not os.path.exists("/home/guillermodelvalle/not_detected"):
@@ -265,29 +265,18 @@ def process_directory_opencv(dir, csv_file, dict):
                 cv2.imwrite(os.path.join('/home/guillermodelvalle/not_detected/'+entry), img)
             #if a face is detected then we go through the cropping process
             else:
+
                 found += 1
                 #this part identifies the features using dlib's face predictor
                 rect = get_rect(rects, dict[entry])
                 #here, the corners of the cropping square are identified
-                left = rects[0].left()
-                right = rects[0].right()
-                top = rects[0].top()
-                bottom = rects[0].bottom()
-                #here we check if the cropping square goes out of bounds, and if it does, we set the coordinates to 0. (might not be needed)
-                if(left < 0):
-                    left = 0
-                if(top < 0):
-                    top = 0
-                #crop_img = img[top:bottom,left:right]
-                #crop_img = cv2.resize(crop_img,(178,218))
-
+                shape = predictor(img_gray, rect)
+                shape = shape_to_np(shape)
 
 
 
             if shape is not None:
-                shape = predictor(img_gray, rect)
-                shape = shape_to_np(shape)
-                crop_img = crop_openface(img,shape,cropsize,entry)
+                crop_img = crop_image(img,shape,cropsize,entry)
                 if(crop_img is None):
                     cv2.imwrite(os.path.join('/home/guillermodelvalle/not_detected/'+entry), img)
                     #print("here")
@@ -309,7 +298,7 @@ def process_directory_opencv(dir, csv_file, dict):
 
     return df
 
-def process_directory_openface(dir, csv_file, dict):
+def process_directory_openface(dir, dict):
     if not os.path.exists("/home/guillermodelvalle/OpenFace_detected"):
         os.mkdir("/home/guillermodelvalle/OpenFace_detected")
     if not os.path.exists("/home/guillermodelvalle/OpenFace_not_detected"):
@@ -1211,7 +1200,7 @@ def generate_masks(img,name,index,df):
             for point in points:
                 point = np.expand_dims(point,axis=0)
                 cv2.fillPoly(img=img_bin,pts=point,color=255,lineType=cv2.LINE_AA)
-        img_bin = crop_openface(img_bin,df.iloc[index],cropsize,name)
+        img_bin = crop_image(img_bin,df.iloc[index],cropsize,name)
         img_bin = (img_bin > 0).astype(np.uint8) * 255
         file = binarize(img_bin)
         np.save("/home/guillermodelvalle/OpenFace_masks/npy/"+name+"_"+fn,file)
@@ -1226,9 +1215,10 @@ def process_images(df,features,dir,out,id):
         #print(name)
         img = cv2.imread(str(dir+'/'+name))
         file_df.at[name,"image_id"] = name
-        for mask,fn in generate_masks(img,name[:-4],i,df):
-            cv2.imwrite(os.path.join("/home/guillermodelvalle/OpenFace_masks/jpg/"+name[:-4]+'_'+fn+'.jpg'), mask)
-            file_df.at[name,fn] = name[:-4]+'_'+fn+'.jpg'
+        for mask,fn in generate_masks(img,name,i,df):
+            if(mask is not None):
+                cv2.imwrite(os.path.join("/home/guillermodelvalle/OpenFace_masks/jpg/"+name[:-4]+'_'+fn+'.jpg'), mask)
+                file_df.at[name,fn] = name[:-4]+'_'+fn+'.jpg'
     #print(file_df)
     file_df.to_csv(id+"final.csv")
     return
@@ -1236,13 +1226,13 @@ def process_images(df,features,dir,out,id):
 
 
 dict = use_bbox('list_bbox_celeba.csv')
-csv_file = 'test.csv'
+
 path = '/home/guillermodelvalle/img_celeba'
-#df = process_directory_openface(path, csv_file, dict)
-df = pd.read_csv("landmarks.csv")
-features = create_new_csv(df,'list_attr_celeba.csv')
-process_images(df,features,path,'/home/guillermodelvalle/OpenFace_detected/','OpenFace_')
-opencvdf = process_directory('images', csv_file, dict)
+#df = process_directory_openface(path, dict)
+#df = pd.read_csv("landmarks.csv")
+#features = create_new_csv(df,'list_attr_celeba.csv')
+#process_images(df,features,path,'/home/guillermodelvalle/OpenFace_detected/','OpenFace_')
+opencvdf = process_directory_opencv('/home/guillermodelvalle/OpenFace_not_detected',  dict)
 opencvdf.to_csv("cv_landmarks.csv")
 opencvfeatures = create_new_csv(opencvdf,'list_attr_celeba.csv')
 print(opencvdf)
