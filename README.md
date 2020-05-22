@@ -3,3 +3,4 @@ Software used thus far:
 OpenCV
 Numpy
 Dlib
+OpenFace
